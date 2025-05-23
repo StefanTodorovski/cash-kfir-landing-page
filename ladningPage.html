@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Morningful AI - Money Made Simple</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background-color: #fcfcfc;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem;
+      }
+      .logo {
+        max-width: 180px;
+        margin-bottom: 1rem;
+      }
+      .tagline {
+        font-size: 1.25rem;
+        color: #93bbd7;
+        margin-bottom: 2rem;
+      }
+      form {
+        width: 100%;
+        max-width: 400px;
+        background-color: #ffffff;
+        padding: 2rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      }
+      input[type="text"],
+      input[type="email"] {
+        width: 100%;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        border: 1px solid #b8c6ca;
+        border-radius: 4px;
+        font-size: 1rem;
+      }
+      button {
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+        background-color: #4ba5f1;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.3s;
+      }
+      button:hover {
+        background-color: #6fb0e4;
+      }
+      .footer {
+        margin-top: 2rem;
+        font-size: 0.85rem;
+        color: #b8c6ca;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="Logo-v1-upscale-major-transparent.png" alt="Morningful AI Logo" class="logo" />
+    <div class="tagline">Your Smart Financial Assistant</div>
+
+    <form id="signup-form">
+      <input type="text" name="name" placeholder="Your name" required />
+      <input type="email" name="email" placeholder="Your email" required />
+      <button type="submit">Join the Waitlist</button>
+    </form>
+
+    <div class="footer">&copy; 2025 Morningful AI. All rights reserved.</div>
+
+    <script>
+      document.getElementById('signup-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        alert('Form submission will go to Mailchimp/Brevo once connected.');
+        // TODO: Replace with real API integration when key is provided
+      });
+    </script>
+  </body>
+</html>
