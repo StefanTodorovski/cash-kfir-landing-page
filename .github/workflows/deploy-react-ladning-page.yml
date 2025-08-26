@@ -1,0 +1,58 @@
+name: Deploy React Landing to S3 (Prod)
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      BUILD_DIR: build  # CRA default. Use 'dist' for Vite or 'out' for Next export.
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install deps
+        run: npm ci
+
+      # CRA/Vite build:
+      - name: Build
+        run: npm run build
+
+      # Next static export (uncomment if using Next):
+      # - name: Build (Next export)
+      #   run: |
+      #     npm run build
+      #     npx next export
+
+      - name: Configure AWS CLI creds
+        run: |
+          aws configure set aws_access_key_id "${{ secrets.AWS_ACCESS_KEY_ID }}"
+          aws configure set aws_secret_access_key "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+          aws configure set default.region "${{ secrets.AWS_REGION }}"
+
+      # Long cache for hashed assets; no-cache for index.html
+      - name: Sync assets (long cache)
+        run: |
+          aws s3 sync ./${{ env.BUILD_DIR }}/ s3://${{ secrets.S3_BUCKET_NAME_PDN_LANDING }} \
+            --delete \
+            --exclude "index.html" \
+            --cache-control "public, max-age=31536000, immutable"
+
+      - name: Upload index.html (no cache)
+        run: |
+          aws s3 cp ./${{ env.BUILD_DIR }}/index.html s3://${{ secrets.S3_BUCKET_NAME_PDN_LANDING }}/index.html \
+            --cache-control "no-store, no-cache, must-revalidate, max-age=0"
+
+      - name: Invalidate CloudFront
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_PDN_LANDING }} \
+            --paths "/*"
