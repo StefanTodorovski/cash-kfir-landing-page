@@ -108,9 +108,5 @@ ehthumbs.db
 *.tmp
 *.temp
 
-# Package manager lockfiles (optional - you might want to keep package-lock.json)
-# package-lock.json
-# yarn.lock
-
 # Storybook build outputs
 storybook-static
