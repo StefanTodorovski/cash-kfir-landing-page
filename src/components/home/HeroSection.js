@@ -3,7 +3,7 @@ import { Button } from '../ui/button';
 import { ArrowRight, Play } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-export default function HeroSection() {
+export default function HeroSection({ onRequestDemo }) {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-[#1a2332] via-[#1a2332] to-[#0f1419] text-white">
       {/* Animated background elements */}
@@ -71,6 +71,7 @@ export default function HeroSection() {
             >
               <Button
                 size="lg"
+                onClick={onRequestDemo}
                 className="bg-[#00d4ff] hover:bg-[#00b8e6] text-[#1a2332] font-semibold px-8 py-4 h-auto text-lg rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#00d4ff]/25"
               >
                 Request a Demo

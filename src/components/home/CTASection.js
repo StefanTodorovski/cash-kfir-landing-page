@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Button } from '../ui/button';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
-export default function CTASection() {
+export default function CTASection({ onRequestDemo }) {
   return (
     <section className="py-24 bg-gradient-to-br from-white via-gray-50 to-white relative overflow-hidden">
       {/* Background decoration */}
@@ -71,6 +71,7 @@ export default function CTASection() {
           >
             <Button
               size="lg"
+              onClick={onRequestDemo}
               className="bg-[#00d4ff] hover:bg-[#00b8e6] text-[#1a2332] font-bold px-12 py-6 h-auto text-xl rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#00d4ff]/25 group"
             >
               Request a Demo
