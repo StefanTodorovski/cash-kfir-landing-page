@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Button = React.forwardRef(
   (
@@ -7,6 +8,8 @@ const Button = React.forwardRef(
       variant = 'default',
       size = 'default',
       children,
+      disabled = false,
+      loading = false,
       ...props
     },
     ref
@@ -35,8 +38,20 @@ const Button = React.forwardRef(
     const classes = `${baseClasses} ${variants[variant]} ${sizes[size]} ${className}`;
 
     return (
-      <button className={classes} ref={ref} {...props}>
-        {children}
+      <button
+        className={classes}
+        ref={ref}
+        disabled={disabled || loading}
+        {...props}
+      >
+        {loading ? (
+          <>
+            <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin mr-2" />
+            {children}
+          </>
+        ) : (
+          children
+        )}
       </button>
     );
   }
@@ -44,4 +59,21 @@ const Button = React.forwardRef(
 
 Button.displayName = 'Button';
 
+Button.propTypes = {
+  className: PropTypes.string,
+  variant: PropTypes.oneOf([
+    'default',
+    'destructive',
+    'outline',
+    'secondary',
+    'ghost',
+    'link',
+  ]),
+  size: PropTypes.oneOf(['default', 'sm', 'lg', 'icon']),
+  children: PropTypes.node.isRequired,
+  disabled: PropTypes.bool,
+  loading: PropTypes.bool,
+};
+
 export { Button };
+export default Button;

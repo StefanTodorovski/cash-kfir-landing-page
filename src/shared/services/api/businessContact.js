@@ -1,7 +1,7 @@
-import API_CONFIG from '../config/api';
+import { API_CONFIG } from '../../config/environment';
 
 /**
- * Generic API request handler with error handling and timeout
+ * Simple API request handler for demo requests
  */
 const apiRequest = async (endpoint, options = {}) => {
   const url = `${API_CONFIG.BASE_URL}${endpoint}`;
@@ -10,7 +10,6 @@ const apiRequest = async (endpoint, options = {}) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    timeout: API_CONFIG.TIMEOUT,
   };
 
   const requestOptions = {
@@ -24,7 +23,7 @@ const apiRequest = async (endpoint, options = {}) => {
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.TIMEOUT);
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds
 
     const response = await fetch(url, {
       ...requestOptions,
@@ -54,21 +53,29 @@ const apiRequest = async (endpoint, options = {}) => {
 };
 
 /**
- * Business Contact API methods
+ * Business Contact API service
  */
-export const businessContactAPI = {
-  /**
-   * Create a new business contact
-   * @param {Object} contactData - The contact data
-   * @param {string} contactData.firstName - First name
-   * @param {string} contactData.lastName - Last name
-   * @param {string} contactData.phoneNumber - Phone number
-   * @param {string} contactData.businessName - Business name
-   * @param {string} contactData.businessLocation - Business location
-   * @param {string} contactData.businessSize - Business size
-   * @returns {Promise<Object>} API response
-   */
-  create: async contactData => {
+export const businessContactService = {
+  async create(contactData) {
+    // Simple validation
+    const requiredFields = [
+      'firstName',
+      'lastName',
+      'phoneNumber',
+      'businessName',
+      'businessLocation',
+      'businessSize',
+    ];
+    const missingFields = requiredFields.filter(field => !contactData[field]);
+
+    if (missingFields.length > 0) {
+      return {
+        success: false,
+        error: `Missing required fields: ${missingFields.join(', ')}`,
+        status: 400,
+      };
+    }
+
     return apiRequest(API_CONFIG.ENDPOINTS.BUSINESS_CONTACT, {
       method: 'POST',
       body: JSON.stringify(contactData),
@@ -76,6 +83,4 @@ export const businessContactAPI = {
   },
 };
 
-export default {
-  businessContact: businessContactAPI,
-};
+export default businessContactService;

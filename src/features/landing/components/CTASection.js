@@ -1,11 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
-import { Button } from '../ui/button';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { Button } from '../../../shared/components/ui/Button';
+import { useScrollAnimation } from '../../../shared/hooks/useAnimation';
 
-export default function CTASection({ onRequestDemo }) {
+const CTASection = ({ onRequestDemo }) => {
+  const { ref, isInView } = useScrollAnimation();
+
   return (
-    <section className="py-24 bg-gradient-to-br from-white via-gray-50 to-white relative overflow-hidden">
+    <section
+      ref={ref}
+      className="py-24 bg-gradient-to-br from-white via-gray-50 to-white relative overflow-hidden"
+    >
       {/* Background decoration */}
       <div className="absolute inset-0">
         <motion.div
@@ -36,13 +43,15 @@ export default function CTASection({ onRequestDemo }) {
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.8 }}
           className="text-center"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            animate={
+              isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }
+            }
             transition={{ delay: 0.2, duration: 0.6 }}
             className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#00d4ff]/10 to-[#1a2332]/10 border border-[#00d4ff]/20 rounded-full text-[#1a2332] font-medium mb-8"
           >
@@ -65,7 +74,7 @@ export default function CTASection({ onRequestDemo }) {
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.4, duration: 0.6 }}
             className="flex flex-col sm:flex-row gap-6 justify-center items-center"
           >
@@ -89,7 +98,7 @@ export default function CTASection({ onRequestDemo }) {
 
           <motion.div
             initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ delay: 0.6, duration: 0.6 }}
             className="mt-12 text-gray-500"
           >
@@ -115,4 +124,10 @@ export default function CTASection({ onRequestDemo }) {
       </div>
     </section>
   );
-}
+};
+
+CTASection.propTypes = {
+  onRequestDemo: PropTypes.func.isRequired,
+};
+
+export default CTASection;

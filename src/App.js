@@ -1,29 +1,31 @@
-import React, { useState } from 'react';
-import Layout from './components/Layout';
-import HeroSection from './components/home/HeroSection';
-import StatsSection from './components/home/StatsSection';
-import FeaturesSection from './components/home/FeaturesSection';
-import SolutionsSection from './components/home/SolutionsSection';
-import TestimonialsSection from './components/home/TestimonialsSection';
-import CTASection from './components/home/CTASection';
-import RequestDemoModal from './components/ui/RequestDemoModal';
+import React from 'react';
+import { Layout, ErrorBoundary } from './shared/components';
+import {
+  HeroSection,
+  StatsSection,
+  FeaturesSection,
+  SolutionsSection,
+  TestimonialsSection,
+  CTASection,
+} from './features/landing';
+import { RequestDemoModal } from './features/demo-request';
+import { useRequestDemo } from './shared/hooks';
 
 function App() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const { isModalOpen, openModal, closeModal } = useRequestDemo();
 
   return (
-    <Layout>
-      <HeroSection onRequestDemo={openModal} />
-      <StatsSection />
-      <FeaturesSection />
-      <SolutionsSection />
-      <TestimonialsSection />
-      <CTASection onRequestDemo={openModal} />
-      <RequestDemoModal isOpen={isModalOpen} onClose={closeModal} />
-    </Layout>
+    <ErrorBoundary>
+      <Layout>
+        <HeroSection onRequestDemo={openModal} />
+        <StatsSection />
+        <FeaturesSection />
+        <SolutionsSection />
+        <TestimonialsSection />
+        <CTASection onRequestDemo={openModal} />
+        <RequestDemoModal isOpen={isModalOpen} onClose={closeModal} />
+      </Layout>
+    </ErrorBoundary>
   );
 }
 

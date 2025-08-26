@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '../ui/button';
+import { Button } from '../../../shared/components/ui/Button';
+import { useScrollAnimation } from '../../../shared/hooks/useAnimation';
 
-const testimonials = [
+const TESTIMONIALS_DATA = [
   {
     name: 'Sarah Chen',
     role: 'CFO',
@@ -33,21 +34,25 @@ const testimonials = [
   },
 ];
 
-export default function TestimonialsSection() {
+const TestimonialsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { ref, isInView } = useScrollAnimation();
 
   const nextTestimonial = () => {
-    setCurrentIndex(prev => (prev + 1) % testimonials.length);
+    setCurrentIndex(prev => (prev + 1) % TESTIMONIALS_DATA.length);
   };
 
   const prevTestimonial = () => {
     setCurrentIndex(
-      prev => (prev - 1 + testimonials.length) % testimonials.length
+      prev => (prev - 1 + TESTIMONIALS_DATA.length) % TESTIMONIALS_DATA.length
     );
   };
 
   return (
-    <section className="py-24 bg-gradient-to-br from-[#1a2332] to-[#0f1419] text-white relative overflow-hidden">
+    <section
+      ref={ref}
+      className="py-24 bg-gradient-to-br from-[#1a2332] to-[#0f1419] text-white relative overflow-hidden"
+    >
       {/* Background decoration */}
       <div className="absolute inset-0">
         <div className="absolute top-20 right-20 w-96 h-96 bg-[#00d4ff]/5 rounded-full blur-3xl" />
@@ -57,7 +62,7 @@ export default function TestimonialsSection() {
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
@@ -86,33 +91,35 @@ export default function TestimonialsSection() {
             >
               <div className="bg-white/10 backdrop-blur-lg rounded-3xl border border-white/20 p-8 lg:p-12 shadow-2xl">
                 <div className="flex justify-center mb-6">
-                  {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
-                    <Star
-                      key={`rating-star-${i}`}
-                      className="w-6 h-6 text-[#00d4ff] fill-current"
-                    />
-                  ))}
+                  {[...Array(TESTIMONIALS_DATA[currentIndex].rating)].map(
+                    (_, i) => (
+                      <Star
+                        key={`rating-star-${i}`}
+                        className="w-6 h-6 text-[#00d4ff] fill-current"
+                      />
+                    )
+                  )}
                 </div>
 
                 <blockquote className="text-2xl lg:text-3xl font-medium text-white mb-8 leading-relaxed">
-                  "{testimonials[currentIndex].content}"
+                  "{TESTIMONIALS_DATA[currentIndex].content}"
                 </blockquote>
 
                 <div className="flex items-center justify-center space-x-4">
                   <img
-                    src={testimonials[currentIndex].avatar}
-                    alt={`${testimonials[currentIndex].name}, ${testimonials[currentIndex].role} at ${testimonials[currentIndex].company}`}
+                    src={TESTIMONIALS_DATA[currentIndex].avatar}
+                    alt={`${TESTIMONIALS_DATA[currentIndex].name}, ${TESTIMONIALS_DATA[currentIndex].role} at ${TESTIMONIALS_DATA[currentIndex].company}`}
                     className="w-16 h-16 rounded-full border-2 border-[#00d4ff]/50"
                   />
                   <div className="text-left">
                     <div className="font-bold text-white text-lg">
-                      {testimonials[currentIndex].name}
+                      {TESTIMONIALS_DATA[currentIndex].name}
                     </div>
                     <div className="text-[#00d4ff]">
-                      {testimonials[currentIndex].role}
+                      {TESTIMONIALS_DATA[currentIndex].role}
                     </div>
                     <div className="text-gray-300 text-sm">
-                      {testimonials[currentIndex].company}
+                      {TESTIMONIALS_DATA[currentIndex].company}
                     </div>
                   </div>
                 </div>
@@ -132,7 +139,7 @@ export default function TestimonialsSection() {
             </Button>
 
             <div className="flex space-x-2 items-center">
-              {testimonials.map((_, index) => (
+              {TESTIMONIALS_DATA.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentIndex(index)}
@@ -158,4 +165,6 @@ export default function TestimonialsSection() {
       </div>
     </section>
   );
-}
+};
+
+export default TestimonialsSection;
