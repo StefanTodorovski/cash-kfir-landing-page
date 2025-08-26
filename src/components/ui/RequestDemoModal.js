@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, User, Building, MapPin, Users, Phone } from 'lucide-react';
 import { Button } from './button';
+import { businessContactAPI } from '../../services/apiService';
 
 export default function RequestDemoModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
@@ -37,18 +38,9 @@ export default function RequestDemoModal({ isOpen, onClose }) {
     setSubmitStatus(null);
 
     try {
-      const response = await fetch(
-        'http://localhost:42000/api/BusinessContact',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const result = await businessContactAPI.create(formData);
 
-      if (response.ok) {
+      if (result.success) {
         setSubmitStatus('success');
         // Reset form
         setFormData({
@@ -65,10 +57,11 @@ export default function RequestDemoModal({ isOpen, onClose }) {
           setSubmitStatus(null);
         }, 2000);
       } else {
+        console.error('API Error:', result.error);
         setSubmitStatus('error');
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('Unexpected error submitting form:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
