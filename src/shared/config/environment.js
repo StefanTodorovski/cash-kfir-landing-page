@@ -12,8 +12,8 @@ export const API_CONFIG = {
 };
 
 export const APP_CONFIG = {
-  APP_NAME: 'Base44',
-  COMPANY_NAME: 'Base44',
+  APP_NAME: 'Morningful AI',
+  COMPANY_NAME: 'Morningful AI',
   COPYRIGHT_YEAR: new Date().getFullYear(),
   SOCIAL_LINKS: {
     FACEBOOK: '#',

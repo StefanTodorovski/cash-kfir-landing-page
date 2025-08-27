@@ -32,7 +32,13 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
-            <div className="text-2xl font-bold mb-4">{APP_CONFIG.APP_NAME}</div>
+            <div className="mb-4">
+              <img
+                src="/images/logos/transparent.svg"
+                alt="Logo"
+                style={{ height: '130px', width: 'auto', display: 'block' }}
+              />
+            </div>
             <p className="text-gray-300 max-w-md">
               Empowering finance teams with intelligent money management and
               real-time cash flow visibility.
