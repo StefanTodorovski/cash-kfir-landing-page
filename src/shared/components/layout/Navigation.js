@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button } from '../ui/Button';
-import { APP_CONFIG } from '../../config/environment';
 
 const Navigation = () => {
   const navItems = [
