@@ -1,5 +1,8 @@
 export const ENV = {
-  API_URL: process.env.REACT_APP_API_URL || 'http://localhost:42000',
+  API_URL:
+    process.env.NODE_ENV === 'production'
+      ? 'https://api.morningful.ai'
+      : 'http://localhost:42000',
   IS_DEVELOPMENT: process.env.NODE_ENV === 'development',
   IS_PRODUCTION: process.env.NODE_ENV === 'production',
 };
