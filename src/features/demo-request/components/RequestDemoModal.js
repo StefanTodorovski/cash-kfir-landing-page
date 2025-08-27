@@ -69,7 +69,6 @@ const RequestDemoModal = ({ isOpen, onClose }) => {
 
   const modalRef = useRef(null);
   const firstFocusableRef = useRef(null);
-  const lastFocusableRef = useRef(null);
 
   // Keyboard accessibility - ESC key and focus management
   useEffect(() => {

@@ -16,8 +16,7 @@ const SOLUTIONS_DATA = [
     title: 'Cash Flow Management',
     description:
       'Monitor inflows and outflows in real-time. Understand your cash conversion cycle and optimize working capital.',
-    image:
-      'https://images.unsplash.com/photo-1632239522610-c1e031b731b2?w=600&h=400&fit=crop&crop=center&q=80',
+    image: '/images/solutions/cash-flow-management.jpg',
     features: [
       'Real-time Balance Monitoring',
       'Cash Conversion Cycle',
