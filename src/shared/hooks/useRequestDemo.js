@@ -120,7 +120,7 @@ export const useRequestDemo = () => {
         setIsSubmitting(false);
       }
     },
-    [formData, validateForm, resetForm, closeModal]
+    [formData, validateForm, closeModal]
   );
 
   return {
