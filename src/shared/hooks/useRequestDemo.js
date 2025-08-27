@@ -100,12 +100,15 @@ export const useRequestDemo = () => {
 
         if (result.success) {
           setSubmitStatus('success');
-          resetForm();
 
-          // Close modal after 2 seconds
+          // Reset form data and errors, but keep the success status
+          setFormData(INITIAL_FORM_DATA);
+          setErrors({});
+
+          // Close modal after 3 seconds to give users time to read the success message
           setTimeout(() => {
             closeModal();
-          }, 2000);
+          }, 3000);
         } else {
           console.error('API Error:', result.error);
           setSubmitStatus('error');

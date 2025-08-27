@@ -1,9 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, User, Building, MapPin, Users, Phone } from 'lucide-react';
+import {
+  X,
+  Send,
+  User,
+  Building,
+  MapPin,
+  Users,
+  Phone,
+  CheckCircle,
+} from 'lucide-react';
 import { Button } from '../../../shared/components/ui/Button';
-import { useRequestDemo } from '../../../shared/hooks/useRequestDemo';
+
 import { BUSINESS_SIZE_OPTIONS } from '../../../shared/constants/business';
 import { ANIMATION_VARIANTS } from '../../../shared/constants/ui';
 
@@ -40,24 +49,70 @@ FormField.propTypes = {
 const SuccessMessage = () => (
   <motion.div
     {...ANIMATION_VARIANTS.fadeInUp}
-    className="text-center py-6 sm:py-8"
+    className="text-center py-8 sm:py-12"
   >
-    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-green-500 rounded-full flex items-center justify-center">
-        <div className="w-2 h-2 sm:w-3 sm:h-3 bg-white rounded-full" />
-      </div>
-    </div>
-    <h3 className="text-xl sm:text-2xl font-bold text-[#1a2332] mb-2">
-      Thank You!
-    </h3>
-    <p className="text-gray-600 text-sm sm:text-base px-2">
-      We've received your request and will be in touch shortly to schedule your
-      demo.
-    </p>
+    {/* Animated Success Icon */}
+    <motion.div
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{
+        type: 'spring',
+        stiffness: 200,
+        damping: 10,
+        delay: 0.2,
+      }}
+      className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-lg"
+    >
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{
+          type: 'spring',
+          stiffness: 300,
+          damping: 15,
+          delay: 0.4,
+        }}
+      >
+        <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+      </motion.div>
+    </motion.div>
+
+    {/* Success Message */}
+    <motion.h3
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.6 }}
+      className="text-2xl sm:text-3xl font-bold text-[#1a2332] mb-3 sm:mb-4"
+    >
+      Request Submitted!
+    </motion.h3>
+
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.8 }}
+      className="space-y-2 sm:space-y-3 px-4"
+    >
+      <p className="text-gray-700 text-base sm:text-lg font-medium">
+        Thank you for your interest!
+      </p>
+      <p className="text-gray-600 text-sm sm:text-base">
+        We've received your demo request and will be in touch within 24 hours to
+        schedule your personalized demo.
+      </p>
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2 }}
+        className="text-[#00d4ff] text-sm font-medium mt-4"
+      >
+        This window will close automatically...
+      </motion.p>
+    </motion.div>
   </motion.div>
 );
 
-const RequestDemoModal = ({ isOpen, onClose }) => {
+const RequestDemoModal = ({ isOpen, onClose, demoHook }) => {
   const {
     formData,
     handleInputChange,
@@ -65,7 +120,7 @@ const RequestDemoModal = ({ isOpen, onClose }) => {
     submitStatus,
     handleSubmit,
     errors,
-  } = useRequestDemo();
+  } = demoHook;
 
   const modalRef = useRef(null);
   const firstFocusableRef = useRef(null);
@@ -447,6 +502,7 @@ const RequestDemoModal = ({ isOpen, onClose }) => {
 RequestDemoModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  demoHook: PropTypes.object.isRequired,
 };
 
 export default RequestDemoModal;
