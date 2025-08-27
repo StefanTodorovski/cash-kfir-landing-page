@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button } from '../ui/Button';
-import { APP_CONFIG } from '../../config/environment';
 
 const Navigation = () => {
   const navItems = [
@@ -15,8 +14,13 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-8">
-            <div className="text-2xl font-bold text-[#1a2332]">
-              {APP_CONFIG.APP_NAME}
+            <div className="flex items-center">
+              <img
+                src="/images/logos/transparent.svg"
+                alt="Logo"
+                style={{ height: '130px', width: 'auto', display: 'block' }}
+                className="mr-2"
+              />
             </div>
             <div className="hidden md:flex space-x-8">
               {navItems.map(item => (
