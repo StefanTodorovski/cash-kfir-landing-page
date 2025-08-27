@@ -118,6 +118,7 @@ const SolutionsSection = () => {
 
   return (
     <section
+      id="solutions"
       ref={ref}
       className="py-24 bg-gradient-to-br from-gray-50 to-white"
     >

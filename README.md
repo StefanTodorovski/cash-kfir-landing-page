@@ -1,6 +1,6 @@
-# Base44 Landing Page
+# Morningful AI Landing Page
 
-A modern, clean React landing page for Base44's financial management platform.
+A modern, clean React landing page for Morningful AI's financial management platform.
 
 ## 🚀 Features
 
@@ -95,4 +95,4 @@ src/
 
 ---
 
-**Built for Base44**
+**Built for Morningful AI**

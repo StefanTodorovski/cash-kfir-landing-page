@@ -5,8 +5,6 @@ const Navigation = () => {
   const navItems = [
     { label: 'Features', href: '#features' },
     { label: 'Solutions', href: '#solutions' },
-    { label: 'Pricing', href: '#pricing' },
-    { label: 'About', href: '#about' },
   ];
 
   return (
@@ -17,7 +15,7 @@ const Navigation = () => {
             <div className="flex items-center">
               <img
                 src="/images/logos/transparent.svg"
-                alt="Logo"
+                alt="Morningful AI Logo"
                 style={{ height: '130px', width: 'auto', display: 'block' }}
                 className="mr-2"
               />
