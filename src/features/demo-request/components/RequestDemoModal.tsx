@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, User, Building, MapPin, Users, Phone } from 'lucide-react';
 import { Button } from '../../../shared/components/ui/Button';
-import { useRequestDemo } from '../../../shared/hooks/useRequestDemo';
+// import { useRequestDemo } from '../../../shared/hooks/useRequestDemo';
 import { BUSINESS_SIZE_OPTIONS } from '../../../shared/constants/business';
 import { ANIMATION_VARIANTS } from '../../../shared/constants/ui';
 
@@ -59,9 +59,17 @@ const SuccessMessage = () => (
 interface RequestDemoModalProps {
   isOpen: boolean;
   onClose: () => void;
+  demoHook: {
+    formData: any;
+    handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+    isSubmitting: boolean;
+    submitStatus: string | null;
+    handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+    errors: any;
+  };
 }
 
-const RequestDemoModal: React.FC<RequestDemoModalProps> = ({ isOpen, onClose }) => {
+const RequestDemoModal: React.FC<RequestDemoModalProps> = ({ isOpen, onClose, demoHook }) => {
   const {
     formData,
     handleInputChange,
@@ -426,9 +434,6 @@ const RequestDemoModal: React.FC<RequestDemoModalProps> = ({ isOpen, onClose }) 
   );
 };
 
-RequestDemoModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-};
+
 
 export default RequestDemoModal;
