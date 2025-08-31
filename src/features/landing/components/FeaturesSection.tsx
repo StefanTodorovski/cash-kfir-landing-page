@@ -58,7 +58,19 @@ const FEATURES_DATA = [
   },
 ];
 
-const FeatureCard = ({ feature, index }) => {
+interface FeatureData {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+  color: string;
+}
+
+interface FeatureCardProps {
+  feature: FeatureData;
+  index: number;
+}
+
+const FeatureCard: React.FC<FeatureCardProps> = ({ feature, index }) => {
   const stagger = useStaggerAnimation(0.1);
 
   return (

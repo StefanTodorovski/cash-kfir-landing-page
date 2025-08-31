@@ -1,11 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from '../../../shared/components/ui/Button';
 import { useScrollAnimation } from '../../../shared/hooks/useAnimation';
 
-const CTASection = ({ onRequestDemo }) => {
+interface CTASectionProps {
+  onRequestDemo: () => void;
+}
+
+const CTASection: React.FC<CTASectionProps> = ({ onRequestDemo }) => {
   const { ref, isInView } = useScrollAnimation();
 
   return (
@@ -126,8 +129,6 @@ const CTASection = ({ onRequestDemo }) => {
   );
 };
 
-CTASection.propTypes = {
-  onRequestDemo: PropTypes.func.isRequired,
-};
+
 
 export default CTASection;

@@ -1,11 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import { ArrowRight, Play } from 'lucide-react';
 import { Button } from '../../../../shared/components/ui/Button';
 import { ANIMATION_VARIANTS } from '../../../../shared/constants/ui';
 
-const HeroContent = ({ onRequestDemo }) => {
+type HeroContentProps = {
+  onRequestDemo: () => void;
+};
+
+const HeroContent: React.FC<HeroContentProps> = ({ onRequestDemo }) => {
   return (
     <motion.div
       {...ANIMATION_VARIANTS.fadeInUp}
@@ -87,8 +90,6 @@ const HeroContent = ({ onRequestDemo }) => {
   );
 };
 
-HeroContent.propTypes = {
-  onRequestDemo: PropTypes.func.isRequired,
-};
+
 
 export default HeroContent;

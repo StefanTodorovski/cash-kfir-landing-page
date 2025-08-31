@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, User, Building, MapPin, Users, Phone } from 'lucide-react';
 import { Button } from '../../../shared/components/ui/Button';
@@ -7,7 +6,15 @@ import { useRequestDemo } from '../../../shared/hooks/useRequestDemo';
 import { BUSINESS_SIZE_OPTIONS } from '../../../shared/constants/business';
 import { ANIMATION_VARIANTS } from '../../../shared/constants/ui';
 
-const FormField = ({ label, icon: Icon, error, children, fieldName }) => (
+interface FormFieldProps {
+  label: string;
+  icon: React.ElementType;
+  error?: string;
+  children: React.ReactNode;
+  fieldName?: string;
+}
+
+const FormField: React.FC<FormFieldProps> = ({ label, icon: Icon, error, children, fieldName }) => (
   <div className="space-y-1.5 sm:space-y-2">
     <label className="text-xs sm:text-sm font-medium text-[#1a2332] flex items-center">
       <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 text-[#00d4ff] flex-shrink-0" />
@@ -29,14 +36,6 @@ const FormField = ({ label, icon: Icon, error, children, fieldName }) => (
   </div>
 );
 
-FormField.propTypes = {
-  label: PropTypes.string.isRequired,
-  icon: PropTypes.elementType.isRequired,
-  error: PropTypes.string,
-  children: PropTypes.node.isRequired,
-  fieldName: PropTypes.string,
-};
-
 const SuccessMessage = () => (
   <motion.div
     {...ANIMATION_VARIANTS.fadeInUp}
@@ -57,7 +56,12 @@ const SuccessMessage = () => (
   </motion.div>
 );
 
-const RequestDemoModal = ({ isOpen, onClose }) => {
+interface RequestDemoModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const RequestDemoModal: React.FC<RequestDemoModalProps> = ({ isOpen, onClose }) => {
   const {
     formData,
     handleInputChange,
@@ -67,26 +71,32 @@ const RequestDemoModal = ({ isOpen, onClose }) => {
     errors,
   } = useRequestDemo();
 
-  const modalRef = useRef(null);
-  const firstFocusableRef = useRef(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  // Use a callback ref to support both input and button elements
+  const firstFocusableNode = React.useRef<HTMLElement | null>(null);
+  const firstFocusableRef = (node: HTMLElement | null) => {
+    if (node) {
+      firstFocusableNode.current = node;
+    }
+  };
 
   // Keyboard accessibility - ESC key and focus management
   useEffect(() => {
-    const handleKeyDown = e => {
+  const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
       }
 
       // Tab key focus trapping
       if (e.key === 'Tab') {
-        const focusableElements = modalRef.current?.querySelectorAll(
+  const focusableElements = modalRef.current?.querySelectorAll<HTMLElement>(
           'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
         );
 
         if (!focusableElements?.length) return;
 
-        const firstElement = focusableElements[0];
-        const lastElement = focusableElements[focusableElements.length - 1];
+  const firstElement = focusableElements[0] as HTMLElement;
+  const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
 
         if (e.shiftKey) {
           // Shift + Tab
@@ -108,7 +118,7 @@ const RequestDemoModal = ({ isOpen, onClose }) => {
       document.addEventListener('keydown', handleKeyDown);
       // Focus first input when modal opens
       setTimeout(() => {
-        firstFocusableRef.current?.focus();
+        firstFocusableNode.current?.focus();
       }, 100);
 
       // Prevent body scroll
@@ -445,8 +455,6 @@ const RequestDemoModal = ({ isOpen, onClose }) => {
 };
 
 RequestDemoModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
 };
 
 export default RequestDemoModal;

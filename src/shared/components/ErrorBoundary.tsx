@@ -3,11 +3,22 @@ import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import { Button } from './ui/Button';
 import { ENV } from '../config/environment';
 
+interface ErrorBoundaryProps {
+  children: React.ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error: Error | null;
+  errorInfo: React.ErrorInfo | null;
+  errorId: string | null;
+}
+
 /**
  * Error Boundary component to catch and handle React errors gracefully
  */
-export class ErrorBoundary extends React.Component {
-  constructor(props) {
+export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = {
       hasError: false,
@@ -17,7 +28,7 @@ export class ErrorBoundary extends React.Component {
     };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
     // Update state so the next render will show the fallback UI
     return {
       hasError: true,
@@ -25,7 +36,7 @@ export class ErrorBoundary extends React.Component {
     };
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     // Log error details
     console.error('Error Boundary caught an error:', error, errorInfo);
 
@@ -40,7 +51,7 @@ export class ErrorBoundary extends React.Component {
     }
   }
 
-  reportError = (error, errorInfo) => {
+  reportError = (error: Error, errorInfo: React.ErrorInfo) => {
     // Implement error reporting to your preferred service (e.g., Sentry, LogRocket, etc.)
     console.log('Reporting error to monitoring service...', {
       error: error.toString(),
@@ -155,18 +166,19 @@ export class ErrorBoundary extends React.Component {
 /**
  * Higher-order component to wrap components with error boundary
  */
-export const withErrorBoundary = (Component, errorBoundaryProps = {}) => {
-  const WrappedComponent = props => (
+type WithErrorBoundaryProps = Partial<ErrorBoundaryProps>;
+
+export function withErrorBoundary<P extends object>(
+  Component: React.ComponentType<P>,
+  errorBoundaryProps: WithErrorBoundaryProps = {}
+) {
+  const WrappedComponent = (props: React.PropsWithChildren<P>) => (
     <ErrorBoundary {...errorBoundaryProps}>
       <Component {...props} />
     </ErrorBoundary>
   );
-
-  WrappedComponent.displayName = `withErrorBoundary(${
-    Component.displayName || Component.name
-  })`;
-
+  WrappedComponent.displayName = `withErrorBoundary(${Component.displayName || Component.name})`;
   return WrappedComponent;
-};
+}
 
 export default ErrorBoundary;

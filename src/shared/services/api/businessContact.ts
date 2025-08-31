@@ -3,7 +3,10 @@ import { API_CONFIG } from '../../config/environment';
 /**
  * Simple API request handler for demo requests
  */
-const apiRequest = async (endpoint, options = {}) => {
+const apiRequest = async (
+  endpoint: string,
+  options: RequestInit = {}
+): Promise<{ success: boolean; data?: any; error?: string }> => {
   const url = `${API_CONFIG.BASE_URL}${endpoint}`;
 
   const defaultOptions = {
@@ -12,12 +15,12 @@ const apiRequest = async (endpoint, options = {}) => {
     },
   };
 
-  const requestOptions = {
+  const requestOptions: RequestInit = {
     ...defaultOptions,
     ...options,
     headers: {
       ...defaultOptions.headers,
-      ...options.headers,
+      ...(options.headers as Record<string, string>),
     },
   };
 
@@ -38,16 +41,16 @@ const apiRequest = async (endpoint, options = {}) => {
 
     const data = await response.json();
     return { success: true, data };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(`API request failed for ${endpoint}:`, error);
 
-    if (error.name === 'AbortError') {
+    if (error instanceof Error && error.name === 'AbortError') {
       return { success: false, error: 'Request timeout' };
     }
 
     return {
       success: false,
-      error: error.message || 'An unexpected error occurred',
+      error: error instanceof Error ? error.message : 'An unexpected error occurred',
     };
   }
 };
@@ -55,10 +58,20 @@ const apiRequest = async (endpoint, options = {}) => {
 /**
  * Business Contact API service
  */
+export type BusinessContactData = {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  businessName: string;
+  businessLocation: string;
+  businessSize: string;
+};
+
 export const businessContactService = {
-  async create(contactData) {
+  async create(contactData: BusinessContactData) {
     // Simple validation
-    const requiredFields = [
+
+    const requiredFields: (keyof BusinessContactData)[] = [
       'firstName',
       'lastName',
       'phoneNumber',

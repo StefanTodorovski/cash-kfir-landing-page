@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import HeroContent from './HeroContent';
 import HeroVisual from './HeroVisual';
@@ -28,7 +27,11 @@ const BackgroundElements = () => (
   </div>
 );
 
-const HeroSection = ({ onRequestDemo }) => {
+interface HeroSectionProps {
+  onRequestDemo: () => void;
+}
+
+const HeroSection: React.FC<HeroSectionProps> = ({ onRequestDemo }) => {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-[#1a2332] via-[#1a2332] to-[#0f1419] text-white">
       <BackgroundElements />
@@ -43,10 +46,6 @@ const HeroSection = ({ onRequestDemo }) => {
       </div>
     </section>
   );
-};
-
-HeroSection.propTypes = {
-  onRequestDemo: PropTypes.func.isRequired,
 };
 
 export default HeroSection;

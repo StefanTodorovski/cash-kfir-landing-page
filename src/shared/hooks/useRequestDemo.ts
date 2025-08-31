@@ -1,16 +1,29 @@
-import { useState, useCallback } from 'react';
+
+import { useState, useCallback, ChangeEvent, FormEvent } from 'react';
 import { businessContactService } from '../services/api';
 import { INITIAL_FORM_DATA } from '../constants/business';
+
+export type DemoFormData = {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  businessName: string;
+  businessLocation: string;
+  businessSize: string;
+};
+
+export type DemoFormErrors = Partial<Record<keyof DemoFormData, string>>;
 
 /**
  * Custom hook for managing demo request functionality
  */
+
 export const useRequestDemo = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error'
-  const [errors, setErrors] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [formData, setFormData] = useState<DemoFormData>(INITIAL_FORM_DATA);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
+  const [errors, setErrors] = useState<DemoFormErrors>({});
 
   const openModal = useCallback(() => {
     setIsModalOpen(true);
@@ -31,7 +44,7 @@ export const useRequestDemo = () => {
   }, []);
 
   const handleInputChange = useCallback(
-    e => {
+    (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       const { name, value } = e.target;
       setFormData(prev => ({
         ...prev,
@@ -39,10 +52,10 @@ export const useRequestDemo = () => {
       }));
 
       // Clear error for this field when user starts typing
-      if (errors[name]) {
+      if (errors[name as keyof DemoFormErrors]) {
         setErrors(prev => ({
           ...prev,
-          [name]: null,
+          [name]: undefined,
         }));
       }
     },
@@ -50,7 +63,7 @@ export const useRequestDemo = () => {
   );
 
   const validateForm = useCallback(() => {
-    const newErrors = {};
+    const newErrors: DemoFormErrors = {};
 
     if (!formData.firstName.trim()) {
       newErrors.firstName = 'First name is required';
@@ -85,7 +98,7 @@ export const useRequestDemo = () => {
   }, [formData]);
 
   const handleSubmit = useCallback(
-    async e => {
+    async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
       if (!validateForm()) {

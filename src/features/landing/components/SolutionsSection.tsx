@@ -57,7 +57,20 @@ const SOLUTIONS_DATA = [
   },
 ];
 
-const SolutionCard = ({ solution, index }) => {
+interface SolutionData {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+  image: string;
+  features: string[];
+}
+
+interface SolutionCardProps {
+  solution: SolutionData;
+  index: number;
+}
+
+const SolutionCard: React.FC<SolutionCardProps> = ({ solution, index }) => {
   return (
     <motion.div
       initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
@@ -89,7 +102,7 @@ const SolutionCard = ({ solution, index }) => {
           </p>
 
           <ul className="space-y-3 mb-8">
-            {solution.features.map((feature, featureIndex) => (
+            {solution.features.map((feature: string, featureIndex: number) => (
               <li
                 key={featureIndex}
                 className="flex items-center text-gray-600"

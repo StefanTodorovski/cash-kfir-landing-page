@@ -1,7 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const Button = React.forwardRef(
+type ButtonProps = {
+  className?: string;
+  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+  size?: 'default' | 'sm' | 'lg' | 'icon';
+  children: React.ReactNode;
+  disabled?: boolean;
+  loading?: boolean;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       className = '',
@@ -59,21 +67,7 @@ const Button = React.forwardRef(
 
 Button.displayName = 'Button';
 
-Button.propTypes = {
-  className: PropTypes.string,
-  variant: PropTypes.oneOf([
-    'default',
-    'destructive',
-    'outline',
-    'secondary',
-    'ghost',
-    'link',
-  ]),
-  size: PropTypes.oneOf(['default', 'sm', 'lg', 'icon']),
-  children: PropTypes.node.isRequired,
-  disabled: PropTypes.bool,
-  loading: PropTypes.bool,
-};
+
 
 export { Button };
 export default Button;
