@@ -12,18 +12,22 @@ import { RequestDemoModal } from './features/demo-request';
 import { useRequestDemo } from './shared/hooks';
 
 function App() {
-  const { isModalOpen, openModal, closeModal } = useRequestDemo();
+  const demoHook = useRequestDemo();
 
   return (
     <ErrorBoundary>
       <Layout>
-        <HeroSection onRequestDemo={openModal} />
+        <HeroSection onRequestDemo={demoHook.openModal} />
         <StatsSection />
         <FeaturesSection />
         <SolutionsSection />
         <TestimonialsSection />
-        <CTASection onRequestDemo={openModal} />
-        <RequestDemoModal isOpen={isModalOpen} onClose={closeModal} />
+        <CTASection onRequestDemo={demoHook.openModal} />
+        <RequestDemoModal
+          isOpen={demoHook.isModalOpen}
+          onClose={demoHook.closeModal}
+          demoHook={demoHook}
+        />
       </Layout>
     </ErrorBoundary>
   );
