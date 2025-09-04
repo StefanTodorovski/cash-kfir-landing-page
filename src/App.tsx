@@ -9,24 +9,37 @@ import {
   CTASection,
 } from './features/landing';
 import { RequestDemoModal } from './features/demo-request';
-import { useRequestDemo } from './shared/hooks';
+import { ContactModal } from './features/contact';
+import { useRequestDemo, useContact } from './shared/hooks';
 
 function App() {
   const demoHook = useRequestDemo();
+  const contactHook = useContact();
 
   return (
     <ErrorBoundary>
-      <Layout>
+      <Layout
+        onJoinBetaWaitlist={demoHook.openModal}
+        onContactClick={contactHook.openModal}
+      >
         <HeroSection onRequestDemo={demoHook.openModal} />
         <StatsSection />
         <FeaturesSection />
         <SolutionsSection />
         <TestimonialsSection />
-        <CTASection onRequestDemo={demoHook.openModal} />
+        <CTASection
+          onRequestDemo={demoHook.openModal}
+          onContactClick={contactHook.openModal}
+        />
         <RequestDemoModal
           isOpen={demoHook.isModalOpen}
           onClose={demoHook.closeModal}
           demoHook={demoHook}
+        />
+        <ContactModal
+          isOpen={contactHook.isModalOpen}
+          onClose={contactHook.closeModal}
+          contactHook={contactHook}
         />
       </Layout>
     </ErrorBoundary>

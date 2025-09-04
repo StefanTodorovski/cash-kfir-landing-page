@@ -6,9 +6,13 @@ import { useScrollAnimation } from '../../../shared/hooks/useAnimation';
 
 interface CTASectionProps {
   onRequestDemo: () => void;
+  onContactClick?: () => void;
 }
 
-const CTASection: React.FC<CTASectionProps> = ({ onRequestDemo }) => {
+const CTASection: React.FC<CTASectionProps> = ({
+  onRequestDemo,
+  onContactClick,
+}) => {
   const { ref, isInView } = useScrollAnimation();
 
   return (
@@ -94,6 +98,7 @@ const CTASection: React.FC<CTASectionProps> = ({ onRequestDemo }) => {
             <Button
               variant="outline"
               size="lg"
+              onClick={onContactClick}
               className="border-2 border-[#1a2332] text-[#1a2332] hover:bg-[#1a2332] hover:text-white px-12 py-6 h-auto text-xl rounded-2xl transition-all duration-300 hover:scale-105"
             >
               Contact Sales

@@ -1,7 +1,11 @@
 import React from 'react';
 import { APP_CONFIG } from '../../config/environment';
 
-const Footer = () => {
+interface FooterProps {
+  onContactClick?: () => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ onContactClick }) => {
   const productLinks = [
     { label: 'Features', href: '#features' },
     { label: 'Pricing', href: '#pricing' },
@@ -12,7 +16,6 @@ const Footer = () => {
   const companyLinks = [
     { label: 'About', href: '#about' },
     { label: 'Careers', href: '#careers' },
-    { label: 'Contact', href: '#contact' },
     { label: 'Blog', href: '#blog' },
   ];
 
@@ -80,6 +83,14 @@ const Footer = () => {
                   </button>
                 </li>
               ))}
+              <li>
+                <button
+                  onClick={onContactClick}
+                  className="hover:text-[#00d4ff] transition-colors"
+                >
+                  Contact
+                </button>
+              </li>
             </ul>
           </div>
         </div>

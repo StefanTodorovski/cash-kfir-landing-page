@@ -4,14 +4,20 @@ import Footer from './Footer';
 
 interface LayoutProps {
   children: React.ReactNode;
+  onJoinBetaWaitlist?: () => void;
+  onContactClick?: () => void;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC<LayoutProps> = ({
+  children,
+  onJoinBetaWaitlist,
+  onContactClick,
+}) => {
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
+      <Navigation onJoinBetaWaitlist={onJoinBetaWaitlist} />
       <main className="pt-16">{children}</main>
-      <Footer />
+      <Footer onContactClick={onContactClick} />
     </div>
   );
 };
