@@ -132,7 +132,7 @@ const Navigation: React.FC<NavigationProps> = ({ onJoinBetaWaitlist }) => {
               variant="ghost"
               size="sm"
               onClick={handleSignInClick}
-              className="px-2 sm:px-3 text-xs sm:text-sm"
+              className="px-2 sm:px-3 text-xs sm:text-sm text-gray-700 hover:text-[#00d4ff] transition-colors duration-300"
             >
               Sign In
             </Button>
