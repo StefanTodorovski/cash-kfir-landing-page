@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from '../../../shared/components/ui/Button';
 import { useScrollAnimation } from '../../../shared/hooks/useAnimation';
+import { useAnalytics } from '../../../shared/hooks';
 
 interface CTASectionProps {
   onRequestDemo: () => void;
@@ -14,6 +15,17 @@ const CTASection: React.FC<CTASectionProps> = ({
   onContactClick,
 }) => {
   const { ref, isInView } = useScrollAnimation();
+  const { trackCTAClick } = useAnalytics();
+
+  const handleBetaClick = () => {
+    trackCTAClick('Join Beta Waitlist', 'cta_section');
+    onRequestDemo();
+  };
+
+  const handleContactSalesClick = () => {
+    trackCTAClick('Contact Sales', 'cta_section');
+    onContactClick?.();
+  };
 
   return (
     <section
@@ -88,7 +100,7 @@ const CTASection: React.FC<CTASectionProps> = ({
           >
             <Button
               size="lg"
-              onClick={onRequestDemo}
+              onClick={handleBetaClick}
               className="bg-[#00d4ff] hover:bg-[#00b8e6] text-[#1a2332] font-bold px-12 py-6 h-auto text-xl rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#00d4ff]/25 group"
             >
               Join Beta Waitlist
@@ -98,7 +110,7 @@ const CTASection: React.FC<CTASectionProps> = ({
             <Button
               variant="outline"
               size="lg"
-              onClick={onContactClick}
+              onClick={handleContactSalesClick}
               className="border-2 border-[#1a2332] text-[#1a2332] hover:bg-[#1a2332] hover:text-white px-12 py-6 h-auto text-xl rounded-2xl transition-all duration-300 hover:scale-105"
             >
               Contact Sales

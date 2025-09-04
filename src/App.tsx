@@ -9,11 +9,21 @@ import {
   CTASection,
 } from './features/landing';
 import { RequestDemoModal } from './features/demo-request';
+import {
+  useRequestDemo,
+  useAnalytics,
+  useScrollTracking,
+} from './shared/hooks';
 import { ContactModal } from './features/contact';
-import { useRequestDemo, useContact } from './shared/hooks';
+import { useContact } from './shared/hooks';
 
 function App() {
   const demoHook = useRequestDemo();
+
+  // Initialize analytics tracking
+  useAnalytics();
+  useScrollTracking();
+
   const contactHook = useContact();
 
   return (

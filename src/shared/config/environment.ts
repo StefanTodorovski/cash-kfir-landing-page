@@ -5,6 +5,7 @@ export const ENV = {
       : 'http://localhost:42000',
   IS_DEVELOPMENT: process.env.NODE_ENV === 'development',
   IS_PRODUCTION: process.env.NODE_ENV === 'production',
+  GOOGLE_ANALYTICS_ID: 'G-8DY1F31TH3',
 };
 
 export const API_CONFIG = {
