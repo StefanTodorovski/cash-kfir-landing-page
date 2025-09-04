@@ -89,7 +89,7 @@ const Navigation: React.FC<NavigationProps> = ({ onJoinBetaWaitlist }) => {
               </div>
               <LogoWordmark />
             </button>
-            <div className="hidden md:flex space-x-8">
+            <div className="hidden xl:flex space-x-8">
               {navItems.map(item => (
                 <button
                   key={item.label}
