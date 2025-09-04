@@ -6,10 +6,10 @@ import {
 } from '../../../shared/hooks/useAnimation';
 
 const STATS_DATA = [
-  { value: '$1B+', label: 'Transactions Analyzed' },
+  { value: '$20M', label: 'Transactions Analyzed' },
   { value: '99.98%', label: 'Data Accuracy' },
-  { value: '500+', label: 'Finance Teams Onboarded' },
-  { value: '24/7', label: 'Dedicated Support' },
+  { value: '14', label: 'Finance Teams Onboarded' },
+  { value: '10,000+', label: 'Banks Supported' },
 ];
 
 const StatsSection = () => {
