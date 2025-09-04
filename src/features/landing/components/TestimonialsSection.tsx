@@ -50,6 +50,7 @@ const TestimonialsSection = () => {
 
   return (
     <section
+      id="testimonials"
       ref={ref}
       className="py-24 bg-gradient-to-br from-[#1a2332] to-[#0f1419] text-white relative overflow-hidden"
     >

@@ -13,6 +13,7 @@ const CTASection: React.FC<CTASectionProps> = ({ onRequestDemo }) => {
 
   return (
     <section
+      id="pricing"
       ref={ref}
       className="py-24 bg-gradient-to-br from-white via-gray-50 to-white relative overflow-hidden"
     >
@@ -128,7 +129,5 @@ const CTASection: React.FC<CTASectionProps> = ({ onRequestDemo }) => {
     </section>
   );
 };
-
-
 
 export default CTASection;
