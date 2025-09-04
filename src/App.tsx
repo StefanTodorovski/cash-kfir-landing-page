@@ -9,10 +9,14 @@ import {
   CTASection,
 } from './features/landing';
 import { RequestDemoModal } from './features/demo-request';
-import { useRequestDemo } from './shared/hooks';
+import { useRequestDemo, useAnalytics, useScrollTracking } from './shared/hooks';
 
 function App() {
   const demoHook = useRequestDemo();
+  
+  // Initialize analytics tracking
+  useAnalytics();
+  useScrollTracking();
 
   return (
     <ErrorBoundary>

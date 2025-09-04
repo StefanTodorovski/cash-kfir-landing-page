@@ -3,12 +3,24 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Play } from 'lucide-react';
 import { Button } from '../../../../shared/components/ui/Button';
 import { ANIMATION_VARIANTS } from '../../../../shared/constants/ui';
+import { useAnalytics } from '../../../../shared/hooks';
 
 type HeroContentProps = {
   onRequestDemo: () => void;
 };
 
 const HeroContent: React.FC<HeroContentProps> = ({ onRequestDemo }) => {
+  const { trackCTAClick } = useAnalytics();
+
+  const handleRequestDemo = () => {
+    trackCTAClick('Request a Demo', 'hero_section');
+    onRequestDemo();
+  };
+
+  const handleWatchOverview = () => {
+    trackCTAClick('Watch Overview', 'hero_section');
+  };
+
   return (
     <motion.div
       {...ANIMATION_VARIANTS.fadeInUp}
@@ -49,7 +61,7 @@ const HeroContent: React.FC<HeroContentProps> = ({ onRequestDemo }) => {
       >
         <Button
           size="lg"
-          onClick={onRequestDemo}
+          onClick={handleRequestDemo}
           className="bg-[#00d4ff] hover:bg-[#00b8e6] text-[#1a2332] font-semibold px-8 py-4 h-auto text-lg rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#00d4ff]/25"
         >
           Request a Demo
@@ -58,6 +70,7 @@ const HeroContent: React.FC<HeroContentProps> = ({ onRequestDemo }) => {
         <Button
           variant="outline"
           size="lg"
+          onClick={handleWatchOverview}
           className="border-2 border-white/20 text-white hover:bg-white/5 hover:border-white/40 px-8 py-4 h-auto text-lg rounded-xl transition-all duration-300"
         >
           <Play className="mr-2 w-5 h-5" />

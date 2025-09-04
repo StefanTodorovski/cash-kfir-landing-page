@@ -2,6 +2,7 @@
 import { useState, useCallback, ChangeEvent, FormEvent } from 'react';
 import { businessContactService } from '../services/api';
 import { INITIAL_FORM_DATA } from '../constants/business';
+import { analyticsService } from '../services/analytics';
 
 export type DemoFormData = {
   firstName: string;
@@ -26,6 +27,10 @@ export const useRequestDemo = () => {
   const [errors, setErrors] = useState<DemoFormErrors>({});
 
   const openModal = useCallback(() => {
+    analyticsService.logEvent('demo_modal_opened', {
+      event_category: 'engagement',
+      event_label: 'modal_interaction',
+    });
     setIsModalOpen(true);
     setSubmitStatus(null);
     setErrors({});
@@ -112,6 +117,9 @@ export const useRequestDemo = () => {
         const result = await businessContactService.create(formData);
 
         if (result.success) {
+          // Track successful demo request
+          analyticsService.trackDemoRequest(formData);
+          
           setSubmitStatus('success');
 
           // Reset form data and errors, but keep the success status
@@ -123,10 +131,22 @@ export const useRequestDemo = () => {
             closeModal();
           }, 3000);
         } else {
+          // Track failed demo request
+          analyticsService.logEvent('demo_request_failed', {
+            event_category: 'form_submission',
+            event_label: 'api_error',
+            error_message: result.error || 'unknown_error',
+          });
           console.error('API Error:', result.error);
           setSubmitStatus('error');
         }
       } catch (error) {
+        // Track unexpected errors
+        analyticsService.logEvent('demo_request_error', {
+          event_category: 'form_submission',
+          event_label: 'unexpected_error',
+          error_message: error instanceof Error ? error.message : 'unknown_error',
+        });
         console.error('Unexpected error submitting form:', error);
         setSubmitStatus('error');
       } finally {
