@@ -88,6 +88,7 @@ const Navigation: React.FC<NavigationProps> = ({ onJoinBetaWaitlist }) => {
 
   const handleSignInClick = () => {
     trackNavigation('Sign In');
+    window.open('https://app.morningful.ai', '_blank');
   };
 
   return (
