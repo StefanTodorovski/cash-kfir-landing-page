@@ -13,9 +13,13 @@ import {
   useRequestDemo,
   useAnalytics,
   useScrollTracking,
+  useContact,
+  usePrivacyPolicy,
+  useTermsOfService,
 } from './shared/hooks';
 import { ContactModal } from './features/contact';
-import { useContact } from './shared/hooks';
+import { PrivacyPolicyModal } from './features/privacy-policy';
+import { TermsOfServiceModal } from './features/terms-of-service';
 
 function App() {
   const demoHook = useRequestDemo();
@@ -25,12 +29,16 @@ function App() {
   useScrollTracking();
 
   const contactHook = useContact();
+  const privacyPolicyHook = usePrivacyPolicy();
+  const termsOfServiceHook = useTermsOfService();
 
   return (
     <ErrorBoundary>
       <Layout
         onJoinBetaWaitlist={demoHook.openModal}
         onContactClick={contactHook.openModal}
+        onPrivacyPolicyClick={privacyPolicyHook.openModal}
+        onTermsOfServiceClick={termsOfServiceHook.openModal}
       >
         <HeroSection onRequestDemo={demoHook.openModal} />
         <StatsSection />
@@ -50,6 +58,14 @@ function App() {
           isOpen={contactHook.isModalOpen}
           onClose={contactHook.closeModal}
           contactHook={contactHook}
+        />
+        <PrivacyPolicyModal
+          isOpen={privacyPolicyHook.isModalOpen}
+          onClose={privacyPolicyHook.closeModal}
+        />
+        <TermsOfServiceModal
+          isOpen={termsOfServiceHook.isModalOpen}
+          onClose={termsOfServiceHook.closeModal}
         />
       </Layout>
     </ErrorBoundary>

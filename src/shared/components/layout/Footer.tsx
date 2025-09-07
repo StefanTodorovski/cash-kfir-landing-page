@@ -3,9 +3,15 @@ import { APP_CONFIG } from '../../config/environment';
 
 interface FooterProps {
   onContactClick?: () => void;
+  onPrivacyPolicyClick?: () => void;
+  onTermsOfServiceClick?: () => void;
 }
 
-const Footer: React.FC<FooterProps> = ({ onContactClick }) => {
+const Footer: React.FC<FooterProps> = ({
+  onContactClick,
+  onPrivacyPolicyClick,
+  onTermsOfServiceClick,
+}) => {
   const productLinks = [
     { label: 'Features', href: '#features' },
     { label: 'Pricing', href: '#pricing' },
@@ -17,11 +23,6 @@ const Footer: React.FC<FooterProps> = ({ onContactClick }) => {
     { label: 'About', href: '#about' },
     { label: 'Careers', href: '#careers' },
     { label: 'Blog', href: '#blog' },
-  ];
-
-  const legalLinks = [
-    { label: 'Privacy Policy', href: '#privacy' },
-    { label: 'Terms of Service', href: '#terms' },
   ];
 
   const socialLinks = [
@@ -101,14 +102,18 @@ const Footer: React.FC<FooterProps> = ({ onContactClick }) => {
             reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            {legalLinks.map(link => (
-              <button
-                key={link.label}
-                className="text-gray-400 hover:text-[#00d4ff] text-sm transition-colors"
-              >
-                {link.label}
-              </button>
-            ))}
+            <button
+              onClick={onPrivacyPolicyClick}
+              className="text-gray-400 hover:text-[#00d4ff] text-sm transition-colors"
+            >
+              Privacy Policy
+            </button>
+            <button
+              onClick={onTermsOfServiceClick}
+              className="text-gray-400 hover:text-[#00d4ff] text-sm transition-colors"
+            >
+              Terms of Service
+            </button>
           </div>
         </div>
       </div>
