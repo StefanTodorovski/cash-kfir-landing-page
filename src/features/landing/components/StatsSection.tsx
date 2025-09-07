@@ -8,7 +8,7 @@ import {
 const STATS_DATA = [
   { value: '$20M', label: 'Transactions Analyzed' },
   { value: '99.98%', label: 'Data Accuracy' },
-  { value: '14', label: 'Finance Teams Onboarded' },
+  { value: '14+', label: 'Finance Teams Onboarded' },
   { value: '10,000+', label: 'Banks Supported' },
 ];
 
