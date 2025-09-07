@@ -31,15 +31,15 @@ const Footer: React.FC<FooterProps> = ({ onContactClick }) => {
   ];
 
   return (
-    <footer className="bg-[#1a2332] text-white py-16">
+    <footer className="bg-[#1a2332] text-white py-8">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
-            <div className="mb-4">
+            <div className="mb-6">
               <img
                 src="/images/logos/transparent.svg"
                 alt="Logo"
-                style={{ height: '130px', width: 'auto', display: 'block' }}
+                className="h-32 sm:h-36 md:h-40 lg:h-44 w-auto block"
               />
             </div>
             <p className="text-gray-300 max-w-md">
