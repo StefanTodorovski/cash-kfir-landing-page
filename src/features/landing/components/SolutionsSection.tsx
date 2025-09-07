@@ -4,8 +4,6 @@ import {
   ArrowRight,
   Activity,
   PiggyBank,
-  Briefcase,
-  ShieldCheck,
 } from 'lucide-react';
 import { Button } from '../../../shared/components/ui/Button';
 import { useScrollAnimation } from '../../../shared/hooks/useAnimation';
@@ -35,26 +33,6 @@ const SOLUTIONS_DATA = [
       'Identify Savings',
     ],
   },
-  {
-    icon: Briefcase,
-    title: 'Financial Planning & Analysis (FP&A)',
-    description:
-      'Build dynamic financial models, run scenario analyses, and create board-ready reports with confidence and ease.',
-    image: '/images/solutions/financial-planning.jpg',
-    features: ['Dynamic Modeling', 'Scenario Analysis', 'Board-Ready Reports'],
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Treasury & Risk Management',
-    description:
-      'Manage multiple currencies, hedge against FX risks, and ensure you have the right amount of cash, in the right place.',
-    image: '/images/solutions/treasury-management.jpg',
-    features: [
-      'Multi-currency Management',
-      'FX Risk Hedging',
-      'Liquidity Planning',
-    ],
-  },
 ];
 
 interface SolutionData {
@@ -68,9 +46,10 @@ interface SolutionData {
 interface SolutionCardProps {
   solution: SolutionData;
   index: number;
+  onJoinBeta: () => void;
 }
 
-const SolutionCard: React.FC<SolutionCardProps> = ({ solution, index }) => {
+const SolutionCard: React.FC<SolutionCardProps> = ({ solution, index, onJoinBeta }) => {
   return (
     <motion.div
       initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
@@ -116,8 +95,9 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ solution, index }) => {
           <Button
             variant="outline"
             className="group/btn border-[#00d4ff] text-[#00d4ff] hover:bg-[#00d4ff] hover:text-white"
+            onClick={onJoinBeta}
           >
-            Learn More
+            Join Beta
             <ArrowRight className="ml-2 w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
           </Button>
         </div>
@@ -126,7 +106,11 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ solution, index }) => {
   );
 };
 
-const SolutionsSection = () => {
+interface SolutionsSectionProps {
+  onRequestDemo: () => void;
+}
+
+const SolutionsSection: React.FC<SolutionsSectionProps> = ({ onRequestDemo }) => {
   const { ref, isInView } = useScrollAnimation();
 
   return (
@@ -161,6 +145,7 @@ const SolutionsSection = () => {
               key={solution.title}
               solution={solution}
               index={index}
+              onJoinBeta={onRequestDemo}
             />
           ))}
         </div>
