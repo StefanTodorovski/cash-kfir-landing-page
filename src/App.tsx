@@ -35,7 +35,7 @@ function App() {
         <HeroSection onRequestDemo={demoHook.openModal} />
         <StatsSection />
         <FeaturesSection />
-        <SolutionsSection />
+        <SolutionsSection onRequestDemo={demoHook.openModal} />
         <TestimonialsSection />
         <CTASection
           onRequestDemo={demoHook.openModal}

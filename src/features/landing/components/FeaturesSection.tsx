@@ -3,10 +3,8 @@ import { motion } from 'framer-motion';
 import {
   BarChart3,
   Shield,
-  Users,
-  TrendingUp,
   PieChart,
-  Link as LinkIcon,
+  CheckCircle,
 } from 'lucide-react';
 import {
   useScrollAnimation,
@@ -17,51 +15,39 @@ const FEATURES_DATA = [
   {
     icon: BarChart3,
     title: 'Real-Time Cash Flow',
-    description:
-      'Connect all bank accounts and financial tools for a unified, up-to-the-second view of your cash position.',
+    bulletPoints: [
+      'Real-Time Monitoring',
+      'Multi-Account View', 
+      'Instant Alerts'
+    ],
     color: 'from-blue-400 to-cyan-500',
   },
   {
     icon: Shield,
     title: 'Bank-Level Security',
-    description:
-      'Bank-grade encryption and compliance with SOC2, GDPR, and other global standards to keep your data safe.',
+    bulletPoints: [
+      'SOC 2 in progress',
+      'GDPR ready',
+      'End-to-End Encryption'
+    ],
     color: 'from-green-400 to-emerald-500',
-  },
-  {
-    icon: Users,
-    title: 'Team-Ready Collaboration',
-    description:
-      'Empower your entire finance team with multi-user access, custom roles, and shared reporting to streamline work.',
-    color: 'from-purple-400 to-pink-500',
-  },
-  {
-    icon: TrendingUp,
-    title: 'Smart Forecasting',
-    description:
-      'Leverage AI-powered insights to predict future cash flow, identify trends, and mitigate risks before they happen.',
-    color: 'from-yellow-400 to-orange-500',
   },
   {
     icon: PieChart,
     title: 'Actionable Insights',
-    description:
-      'Drill down into spending categories, revenue streams, and operational costs with powerful, intuitive analytics.',
+    bulletPoints: [
+      'Spending Categories',
+      'Revenue Streams',
+      'Cost Analytics'
+    ],
     color: 'from-indigo-400 to-blue-500',
-  },
-  {
-    icon: LinkIcon,
-    title: 'Seamless Integration',
-    description:
-      'Connects with your existing accounting software, ERPs, and banking partners to become your single source of truth.',
-    color: 'from-teal-400 to-cyan-500',
   },
 ];
 
 interface FeatureData {
   icon: React.ElementType;
   title: string;
-  description: string;
+  bulletPoints: string[];
   color: string;
 }
 
@@ -93,7 +79,14 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, index }) => {
           {feature.title}
         </h3>
 
-        <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+        <ul className="space-y-2">
+          {feature.bulletPoints.map((point, idx) => (
+            <li key={idx} className="flex items-center text-gray-600">
+              <CheckCircle className="w-4 h-4 text-[#00d4ff] mr-2 flex-shrink-0" />
+              <span className="font-medium">{point}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </motion.div>
   );
@@ -129,7 +122,7 @@ const FeaturesSection = () => {
           variants={stagger.container}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid md:grid-cols-3 gap-8"
         >
           {FEATURES_DATA.map((feature, index) => (
             <FeatureCard key={feature.title} feature={feature} index={index} />
