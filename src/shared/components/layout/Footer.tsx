@@ -38,7 +38,7 @@ const Footer: React.FC<FooterProps> = ({
           <div className="col-span-1 md:col-span-2">
             <div className="mb-6">
               <img
-                src="/images/logos/transparent.svg"
+                src="/images/logos/transparent.png"
                 alt="Logo"
                 className="h-32 sm:h-36 md:h-40 lg:h-44 w-auto block"
               />
