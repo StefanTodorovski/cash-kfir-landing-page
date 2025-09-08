@@ -59,7 +59,7 @@ interface NavigationProps {
 
 const Navigation: React.FC<NavigationProps> = ({ onJoinBetaWaitlist }) => {
   const { trackNavigation, trackCTAClick } = useAnalytics();
-  
+
   const navItems = [
     { label: 'Features', href: '#features' },
     { label: 'Solutions', href: '#solutions' },
@@ -139,7 +139,7 @@ const Navigation: React.FC<NavigationProps> = ({ onJoinBetaWaitlist }) => {
             <Button
               size="sm"
               onClick={handleBetaClick}
-              className="px-2 sm:px-6 bg-[#00d4ff] hover:bg-[#00b8e6] text-[#1a2332] text-xs sm:text-sm"
+              className="px-2 sm:px-6 bg-[#00d4ff] hover:bg-[#00b8e6] text-[#1a2332] text-xs sm:text-sm rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#00d4ff]/25"
             >
               <span className="hidden sm:inline">Join Beta Waitlist</span>
               <span className="sm:hidden">Join Beta</span>

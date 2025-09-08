@@ -14,7 +14,13 @@ interface FormFieldProps {
   fieldName?: string;
 }
 
-const FormField: React.FC<FormFieldProps> = ({ label, icon: Icon, error, children, fieldName }) => (
+const FormField: React.FC<FormFieldProps> = ({
+  label,
+  icon: Icon,
+  error,
+  children,
+  fieldName,
+}) => (
   <div className="space-y-1.5 sm:space-y-2">
     <label className="text-xs sm:text-sm font-medium text-[#1a2332] flex items-center">
       <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 text-[#00d4ff] flex-shrink-0" />
@@ -61,7 +67,9 @@ interface RequestDemoModalProps {
   onClose: () => void;
   demoHook: {
     formData: any;
-    handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+    handleInputChange: (
+      e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => void;
     isSubmitting: boolean;
     submitStatus: string | null;
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -69,7 +77,11 @@ interface RequestDemoModalProps {
   };
 }
 
-const RequestDemoModal: React.FC<RequestDemoModalProps> = ({ isOpen, onClose, demoHook }) => {
+const RequestDemoModal: React.FC<RequestDemoModalProps> = ({
+  isOpen,
+  onClose,
+  demoHook,
+}) => {
   const {
     formData,
     handleInputChange,
@@ -90,21 +102,24 @@ const RequestDemoModal: React.FC<RequestDemoModalProps> = ({ isOpen, onClose, de
 
   // Keyboard accessibility - ESC key and focus management
   useEffect(() => {
-  const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
       }
 
       // Tab key focus trapping
       if (e.key === 'Tab') {
-  const focusableElements = modalRef.current?.querySelectorAll<HTMLElement>(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        );
+        const focusableElements =
+          modalRef.current?.querySelectorAll<HTMLElement>(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
 
         if (!focusableElements?.length) return;
 
-  const firstElement = focusableElements[0] as HTMLElement;
-  const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+        const firstElement = focusableElements[0] as HTMLElement;
+        const lastElement = focusableElements[
+          focusableElements.length - 1
+        ] as HTMLElement;
 
         if (e.shiftKey) {
           // Shift + Tab
@@ -193,7 +208,7 @@ const RequestDemoModal: React.FC<RequestDemoModalProps> = ({ isOpen, onClose, de
                     id="modal-title"
                     className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 sm:mb-2"
                   >
-                    Request a Demo
+                    Join Beta Waitlist
                   </h2>
                   <p
                     id="modal-description"
@@ -419,8 +434,10 @@ const RequestDemoModal: React.FC<RequestDemoModalProps> = ({ isOpen, onClose, de
                         submitStatus === 'error' ? 'submit-error' : undefined
                       }
                     >
-                      <span className="hidden sm:inline">Request Demo</span>
-                      <span className="sm:hidden">Request Demo</span>
+                      <span className="hidden sm:inline">
+                        Join Beta Waitlist
+                      </span>
+                      <span className="sm:hidden">Join Beta</span>
                       <Send className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
                     </Button>
                   </div>
@@ -433,7 +450,5 @@ const RequestDemoModal: React.FC<RequestDemoModalProps> = ({ isOpen, onClose, de
     </AnimatePresence>
   );
 };
-
-
 
 export default RequestDemoModal;
