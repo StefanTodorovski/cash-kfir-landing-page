@@ -6,30 +6,21 @@ import { useScrollAnimation } from '../../../shared/hooks/useAnimation';
 
 const TESTIMONIALS_DATA = [
   {
-    name: 'Sarah Chen',
-    role: 'CFO',
-    company: 'Innovate Inc.',
-    avatar: '/images/avatars/sarah-chen.jpg',
+    name: 'Ido Genosar',
+    role: 'CEO',
+    company: 'Verobotics',
+    avatar: '/images/avatars/ido.jpg',
     content:
-      "This platform has been a game-changer. We've gone from reactive reporting in spreadsheets to proactive cash management. I finally have a real-time pulse on the business.",
+      "Morningful more than pays for itself—we've streamlined cash management and earned 9X more in interest.",
     rating: 5,
   },
   {
-    name: 'Marcus Rodriguez',
-    role: 'VP of Finance',
-    company: 'ScaleUp Co.',
-    avatar: '/images/avatars/marcus-rodriguez.jpg',
+    name: 'Shachar Kaufman',
+    role: 'Founder',
+    company: 'Zoma',
+    avatar: '/images/avatars/shachar.jpg',
     content:
-      'The ability to forecast our cash position with accuracy has been invaluable. We identified a potential shortfall two months out and adjusted our strategy, saving us from a serious crunch.',
-    rating: 5,
-  },
-  {
-    name: 'Emily Watson',
-    role: 'Head of Finance',
-    company: 'NextGen Solutions',
-    avatar: '/images/avatars/emily-watson.jpg',
-    content:
-      "Implementation was seamless. We connected all our accounts in under an hour. It's the single source of truth for our finances and has made board reporting 10x easier.",
+      'Every morning I open Morningful first—it tells me exactly where the business stands in seconds.',
     rating: 5,
   },
 ];
