@@ -11,7 +11,7 @@ const TESTIMONIALS_DATA = [
     company: 'Verobotics',
     avatar: '/images/avatars/ido.jpg',
     content:
-      "Morningful more than pays for itself—we've streamlined cash management and earned 9X more in interest.",
+      "Morningful more than pays for itself. We've streamlined cash management and earned 9X more in interest.",
     rating: 5,
   },
   {
@@ -20,7 +20,7 @@ const TESTIMONIALS_DATA = [
     company: 'Zoma',
     avatar: '/images/avatars/shachar.jpg',
     content:
-      'Every morning I open Morningful first—it tells me exactly where the business stands in seconds.',
+      'Every morning I open Morningful first, and it tells me exactly where the business stands in seconds.',
     rating: 5,
   },
 ];
