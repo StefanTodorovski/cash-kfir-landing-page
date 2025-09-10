@@ -28,17 +28,17 @@ const BackgroundElements = () => (
 );
 
 interface HeroSectionProps {
-  onRequestDemo: () => void;
+  onJoinBetaWaitlist: () => void;
 }
 
-const HeroSection: React.FC<HeroSectionProps> = ({ onRequestDemo }) => {
+const HeroSection: React.FC<HeroSectionProps> = ({ onJoinBetaWaitlist }) => {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-[#1a2332] via-[#1a2332] to-[#0f1419] text-white">
       <BackgroundElements />
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-12 pb-24 lg:pt-16 lg:pb-32">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <HeroContent onRequestDemo={onRequestDemo} />
+          <HeroContent onJoinBetaWaitlist={onJoinBetaWaitlist} />
           <HeroVisual />
         </div>
 

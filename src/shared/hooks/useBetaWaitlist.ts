@@ -1,33 +1,36 @@
-
 import { useState, useCallback, ChangeEvent, FormEvent } from 'react';
-import { businessContactService } from '../services/api';
+import { betaWaitlistService } from '../services/api';
 import { INITIAL_FORM_DATA } from '../constants/business';
 import { analyticsService } from '../services/analytics';
 
-export type DemoFormData = {
+export type BetaWaitlistFormData = {
   firstName: string;
   lastName: string;
-  phoneNumber: string;
+  email: string;
   businessName: string;
   businessLocation: string;
   businessSize: string;
 };
 
-export type DemoFormErrors = Partial<Record<keyof DemoFormData, string>>;
+export type BetaWaitlistFormErrors = Partial<
+  Record<keyof BetaWaitlistFormData, string>
+>;
 
 /**
- * Custom hook for managing demo request functionality
+ * Custom hook for managing beta waitlist functionality
  */
-
-export const useRequestDemo = () => {
+export const useBetaWaitlist = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [formData, setFormData] = useState<DemoFormData>(INITIAL_FORM_DATA);
+  const [formData, setFormData] =
+    useState<BetaWaitlistFormData>(INITIAL_FORM_DATA);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
-  const [errors, setErrors] = useState<DemoFormErrors>({});
+  const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(
+    null
+  );
+  const [errors, setErrors] = useState<BetaWaitlistFormErrors>({});
 
   const openModal = useCallback(() => {
-    analyticsService.logEvent('demo_modal_opened', {
+    analyticsService.logEvent('beta_modal_opened', {
       event_category: 'engagement',
       event_label: 'modal_interaction',
     });
@@ -57,7 +60,7 @@ export const useRequestDemo = () => {
       }));
 
       // Clear error for this field when user starts typing
-      if (errors[name as keyof DemoFormErrors]) {
+      if (errors[name as keyof BetaWaitlistFormErrors]) {
         setErrors(prev => ({
           ...prev,
           [name]: undefined,
@@ -68,7 +71,7 @@ export const useRequestDemo = () => {
   );
 
   const validateForm = useCallback(() => {
-    const newErrors: DemoFormErrors = {};
+    const newErrors: BetaWaitlistFormErrors = {};
 
     if (!formData.firstName.trim()) {
       newErrors.firstName = 'First name is required';
@@ -82,8 +85,14 @@ export const useRequestDemo = () => {
       newErrors.lastName = 'Last name must be at least 2 characters';
     }
 
-    if (!formData.phoneNumber.trim()) {
-      newErrors.phoneNumber = 'Phone number is required';
+    // Email validation
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email.trim())) {
+        newErrors.email = 'Please enter a valid email address';
+      }
     }
 
     if (!formData.businessName.trim()) {
@@ -114,12 +123,12 @@ export const useRequestDemo = () => {
       setSubmitStatus(null);
 
       try {
-        const result = await businessContactService.create(formData);
+        const result = await betaWaitlistService.joinWaitlist(formData);
 
         if (result.success) {
-          // Track successful demo request
+          // Track successful beta waitlist request
           analyticsService.trackDemoRequest(formData);
-          
+
           setSubmitStatus('success');
 
           // Reset form data and errors, but keep the success status
@@ -131,8 +140,8 @@ export const useRequestDemo = () => {
             closeModal();
           }, 3000);
         } else {
-          // Track failed demo request
-          analyticsService.logEvent('demo_request_failed', {
+          // Track failed beta waitlist request
+          analyticsService.logEvent('beta_request_failed', {
             event_category: 'form_submission',
             event_label: 'api_error',
             error_message: result.error || 'unknown_error',
@@ -142,10 +151,11 @@ export const useRequestDemo = () => {
         }
       } catch (error) {
         // Track unexpected errors
-        analyticsService.logEvent('demo_request_error', {
+        analyticsService.logEvent('beta_request_error', {
           event_category: 'form_submission',
           event_label: 'unexpected_error',
-          error_message: error instanceof Error ? error.message : 'unknown_error',
+          error_message:
+            error instanceof Error ? error.message : 'unknown_error',
         });
         console.error('Unexpected error submitting form:', error);
         setSubmitStatus('error');
@@ -178,4 +188,4 @@ export const useRequestDemo = () => {
   };
 };
 
-export default useRequestDemo;
+export default useBetaWaitlist;

@@ -6,12 +6,12 @@ import { useScrollAnimation } from '../../../shared/hooks/useAnimation';
 import { useAnalytics } from '../../../shared/hooks';
 
 interface CTASectionProps {
-  onRequestDemo: () => void;
+  onJoinBetaWaitlist: () => void;
   onContactClick?: () => void;
 }
 
 const CTASection: React.FC<CTASectionProps> = ({
-  onRequestDemo,
+  onJoinBetaWaitlist,
   onContactClick,
 }) => {
   const { ref, isInView } = useScrollAnimation();
@@ -19,7 +19,7 @@ const CTASection: React.FC<CTASectionProps> = ({
 
   const handleBetaClick = () => {
     trackCTAClick('Join Beta Waitlist', 'cta_section');
-    onRequestDemo();
+    onJoinBetaWaitlist();
   };
 
   const handleContactSalesClick = () => {

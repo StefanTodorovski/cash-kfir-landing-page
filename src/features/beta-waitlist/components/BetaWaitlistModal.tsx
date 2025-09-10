@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, User, Building, MapPin, Users, Phone } from 'lucide-react';
+import { X, Send, User, Building, MapPin, Users, Mail } from 'lucide-react';
 import { Button } from '../../../shared/components/ui/Button';
-// import { useRequestDemo } from '../../../shared/hooks/useRequestDemo';
 import { BUSINESS_SIZE_OPTIONS } from '../../../shared/constants/business';
 import { ANIMATION_VARIANTS } from '../../../shared/constants/ui';
 
@@ -56,16 +55,16 @@ const SuccessMessage = () => (
       Thank You!
     </h3>
     <p className="text-gray-600 text-sm sm:text-base px-2">
-      We've received your request and will be in touch shortly to schedule your
-      demo.
+      We've received your request and will be in touch shortly with Beta access
+      details.
     </p>
   </motion.div>
 );
 
-interface RequestDemoModalProps {
+interface BetaWaitlistModalProps {
   isOpen: boolean;
   onClose: () => void;
-  demoHook: {
+  betaHook: {
     formData: any;
     handleInputChange: (
       e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -77,10 +76,10 @@ interface RequestDemoModalProps {
   };
 }
 
-const RequestDemoModal: React.FC<RequestDemoModalProps> = ({
+const BetaWaitlistModal: React.FC<BetaWaitlistModalProps> = ({
   isOpen,
   onClose,
-  demoHook,
+  betaHook,
 }) => {
   const {
     formData,
@@ -89,7 +88,7 @@ const RequestDemoModal: React.FC<RequestDemoModalProps> = ({
     submitStatus,
     handleSubmit,
     errors,
-  } = demoHook;
+  } = betaHook;
 
   const modalRef = useRef<HTMLDivElement | null>(null);
   // Use a callback ref to support both input and button elements
@@ -237,7 +236,7 @@ const RequestDemoModal: React.FC<RequestDemoModalProps> = ({
                   onSubmit={handleSubmit}
                   className="space-y-4 sm:space-y-6"
                   noValidate
-                  aria-label="Request demo form"
+                  aria-label="Join Beta Waitlist form"
                 >
                   {/* Personal Information Section */}
                   <div className="space-y-3 sm:space-y-4">
@@ -292,24 +291,24 @@ const RequestDemoModal: React.FC<RequestDemoModalProps> = ({
                     </div>
 
                     <FormField
-                      label="Phone Number *"
-                      icon={Phone}
-                      error={errors.phoneNumber}
-                      fieldName="phoneNumber"
+                      label="Email *"
+                      icon={Mail}
+                      error={errors.email}
+                      fieldName="email"
                     >
                       <input
-                        type="tel"
-                        name="phoneNumber"
-                        value={formData.phoneNumber}
+                        type="email"
+                        name="email"
+                        value={formData.email}
                         onChange={handleInputChange}
                         required
                         className={inputClassName}
-                        placeholder="Enter your phone number"
+                        placeholder="Enter your email address"
                         aria-describedby={
-                          errors.phoneNumber ? 'phoneNumber-error' : undefined
+                          errors.email ? 'email-error' : undefined
                         }
-                        aria-invalid={errors.phoneNumber ? 'true' : 'false'}
-                        autoComplete="tel"
+                        aria-invalid={errors.email ? 'true' : 'false'}
+                        autoComplete="email"
                       />
                     </FormField>
                   </div>
@@ -451,4 +450,4 @@ const RequestDemoModal: React.FC<RequestDemoModalProps> = ({
   );
 };
 
-export default RequestDemoModal;
+export default BetaWaitlistModal;

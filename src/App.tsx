@@ -8,9 +8,9 @@ import {
   TestimonialsSection,
   CTASection,
 } from './features/landing';
-import { RequestDemoModal } from './features/demo-request';
+import { BetaWaitlistModal } from './features/beta-waitlist';
 import {
-  useRequestDemo,
+  useBetaWaitlist,
   useAnalytics,
   useScrollTracking,
   useContact,
@@ -22,7 +22,7 @@ import { PrivacyPolicyModal } from './features/privacy-policy';
 import { TermsOfServiceModal } from './features/terms-of-service';
 
 function App() {
-  const demoHook = useRequestDemo();
+  const betaWaitlistHook = useBetaWaitlist();
 
   // Initialize analytics tracking
   useAnalytics();
@@ -35,24 +35,24 @@ function App() {
   return (
     <ErrorBoundary>
       <Layout
-        onJoinBetaWaitlist={demoHook.openModal}
+        onJoinBetaWaitlist={betaWaitlistHook.openModal}
         onContactClick={contactHook.openModal}
         onPrivacyPolicyClick={privacyPolicyHook.openModal}
         onTermsOfServiceClick={termsOfServiceHook.openModal}
       >
-        <HeroSection onRequestDemo={demoHook.openModal} />
+        <HeroSection onJoinBetaWaitlist={betaWaitlistHook.openModal} />
         <StatsSection />
         <FeaturesSection />
-        <SolutionsSection onRequestDemo={demoHook.openModal} />
+        <SolutionsSection onJoinBetaWaitlist={betaWaitlistHook.openModal} />
         <TestimonialsSection />
         <CTASection
-          onRequestDemo={demoHook.openModal}
+          onJoinBetaWaitlist={betaWaitlistHook.openModal}
           onContactClick={contactHook.openModal}
         />
-        <RequestDemoModal
-          isOpen={demoHook.isModalOpen}
-          onClose={demoHook.closeModal}
-          demoHook={demoHook}
+        <BetaWaitlistModal
+          isOpen={betaWaitlistHook.isModalOpen}
+          onClose={betaWaitlistHook.closeModal}
+          betaHook={betaWaitlistHook}
         />
         <ContactModal
           isOpen={contactHook.isModalOpen}

@@ -1,7 +1,7 @@
 import { API_CONFIG } from '../../config/environment';
 
 /**
- * Simple API request handler for demo requests
+ * Simple API request handler for beta waitlist requests
  */
 const apiRequest = async (
   endpoint: string,
@@ -50,36 +50,36 @@ const apiRequest = async (
 
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'An unexpected error occurred',
+      error:
+        error instanceof Error ? error.message : 'An unexpected error occurred',
     };
   }
 };
 
 /**
- * Business Contact API service
+ * Beta Waitlist API service
  */
-export type BusinessContactData = {
+export type BetaWaitlistData = {
   firstName: string;
   lastName: string;
-  phoneNumber: string;
+  email: string;
   businessName: string;
   businessLocation: string;
   businessSize: string;
 };
 
-export const businessContactService = {
-  async create(contactData: BusinessContactData) {
+export const betaWaitlistService = {
+  async joinWaitlist(waitlistData: BetaWaitlistData) {
     // Simple validation
-
-    const requiredFields: (keyof BusinessContactData)[] = [
+    const requiredFields: (keyof BetaWaitlistData)[] = [
       'firstName',
       'lastName',
-      'phoneNumber',
+      'email',
       'businessName',
       'businessLocation',
       'businessSize',
     ];
-    const missingFields = requiredFields.filter(field => !contactData[field]);
+    const missingFields = requiredFields.filter(field => !waitlistData[field]);
 
     if (missingFields.length > 0) {
       return {
@@ -89,11 +89,11 @@ export const businessContactService = {
       };
     }
 
-    return apiRequest(API_CONFIG.ENDPOINTS.BUSINESS_CONTACT, {
+    return apiRequest('/api/BusinessContact/join-beta-waitlist', {
       method: 'POST',
-      body: JSON.stringify(contactData),
+      body: JSON.stringify(waitlistData),
     });
   },
 };
 
-export default businessContactService;
+export default betaWaitlistService;

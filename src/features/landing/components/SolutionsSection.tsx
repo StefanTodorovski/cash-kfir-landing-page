@@ -1,10 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import {
-  ArrowRight,
-  Activity,
-  PiggyBank,
-} from 'lucide-react';
+import { ArrowRight, Activity, PiggyBank } from 'lucide-react';
 import { Button } from '../../../shared/components/ui/Button';
 import { useScrollAnimation } from '../../../shared/hooks/useAnimation';
 
@@ -49,7 +45,11 @@ interface SolutionCardProps {
   onJoinBeta: () => void;
 }
 
-const SolutionCard: React.FC<SolutionCardProps> = ({ solution, index, onJoinBeta }) => {
+const SolutionCard: React.FC<SolutionCardProps> = ({
+  solution,
+  index,
+  onJoinBeta,
+}) => {
   return (
     <motion.div
       initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
@@ -107,10 +107,12 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ solution, index, onJoinBeta
 };
 
 interface SolutionsSectionProps {
-  onRequestDemo: () => void;
+  onJoinBetaWaitlist: () => void;
 }
 
-const SolutionsSection: React.FC<SolutionsSectionProps> = ({ onRequestDemo }) => {
+const SolutionsSection: React.FC<SolutionsSectionProps> = ({
+  onJoinBetaWaitlist,
+}) => {
   const { ref, isInView } = useScrollAnimation();
 
   return (
@@ -145,7 +147,7 @@ const SolutionsSection: React.FC<SolutionsSectionProps> = ({ onRequestDemo }) =>
               key={solution.title}
               solution={solution}
               index={index}
-              onJoinBeta={onRequestDemo}
+              onJoinBeta={onJoinBetaWaitlist}
             />
           ))}
         </div>

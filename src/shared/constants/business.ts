@@ -9,7 +9,7 @@ export const BUSINESS_SIZE_OPTIONS = [
 export const INITIAL_FORM_DATA = {
   firstName: '',
   lastName: '',
-  phoneNumber: '',
+  email: '',
   businessName: '',
   businessLocation: '',
   businessSize: '',

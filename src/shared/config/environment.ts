@@ -10,9 +10,6 @@ export const ENV = {
 
 export const API_CONFIG = {
   BASE_URL: ENV.API_URL,
-  ENDPOINTS: {
-    BUSINESS_CONTACT: '/api/BusinessContact',
-  },
 };
 
 export const APP_CONFIG = {

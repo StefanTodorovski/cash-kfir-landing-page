@@ -1,24 +1,30 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 import { Button } from '../../../../shared/components/ui/Button';
 import { ANIMATION_VARIANTS } from '../../../../shared/constants/ui';
 import { useAnalytics } from '../../../../shared/hooks';
 
 type HeroContentProps = {
-  onRequestDemo: () => void;
+  onJoinBetaWaitlist: () => void;
 };
 
-const HeroContent: React.FC<HeroContentProps> = ({ onRequestDemo }) => {
+const HeroContent: React.FC<HeroContentProps> = ({ onJoinBetaWaitlist }) => {
   const { trackCTAClick } = useAnalytics();
 
-  const handleRequestDemo = () => {
-    trackCTAClick('Request a Demo', 'hero_section');
-    onRequestDemo();
+  const handleJoinBetaWaitlist = () => {
+    trackCTAClick('Join Beta Waitlist', 'hero_section');
+    onJoinBetaWaitlist();
   };
 
-  const handleWatchOverview = () => {
-    trackCTAClick('Watch Overview', 'hero_section');
+  const handleLearnMore = () => {
+    trackCTAClick('Learn More', 'hero_section');
+
+    // Smooth scroll to features section
+    const featuresElement = document.querySelector('#features');
+    if (featuresElement) {
+      featuresElement.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -61,20 +67,20 @@ const HeroContent: React.FC<HeroContentProps> = ({ onRequestDemo }) => {
       >
         <Button
           size="lg"
-          onClick={handleRequestDemo}
+          onClick={handleJoinBetaWaitlist}
           className="bg-[#00d4ff] hover:bg-[#00b8e6] text-[#1a2332] font-semibold px-8 py-4 h-auto text-lg rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#00d4ff]/25"
         >
-          Request a Demo
+          Join Beta Waitlist
           <ArrowRight className="ml-2 w-5 h-5" />
         </Button>
         <Button
           variant="outline"
           size="lg"
-          onClick={handleWatchOverview}
+          onClick={handleLearnMore}
           className="border-2 border-white/20 text-white hover:bg-white/5 hover:border-white/40 px-8 py-4 h-auto text-lg rounded-xl transition-all duration-300"
         >
-          <Play className="mr-2 w-5 h-5" />
-          Watch Overview
+          <ChevronDown className="mr-2 w-5 h-5" />
+          Learn More
         </Button>
       </motion.div>
 
@@ -102,7 +108,5 @@ const HeroContent: React.FC<HeroContentProps> = ({ onRequestDemo }) => {
     </motion.div>
   );
 };
-
-
 
 export default HeroContent;

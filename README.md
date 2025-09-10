@@ -16,7 +16,6 @@ A modern, clean React landing page for Morningful AI's financial management plat
 ```
 src/
 ├── features/                    # Feature-based organization
-│   ├── demo-request/           # Demo request modal
 │   └── landing/                # Landing page sections
 ├── shared/                     # Shared utilities and components
 │   ├── components/             # Reusable components
