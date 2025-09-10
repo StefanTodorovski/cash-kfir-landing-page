@@ -40,7 +40,7 @@ const Footer: React.FC<FooterProps> = ({
               <img
                 src="/images/logos/transparent.png"
                 alt="Logo"
-                className="h-32 sm:h-36 md:h-40 lg:h-44 w-auto block"
+                className="h-28 sm:h-32 md:h-36 lg:h-40 w-auto block"
               />
             </div>
             <p className="text-gray-300 max-w-md">
