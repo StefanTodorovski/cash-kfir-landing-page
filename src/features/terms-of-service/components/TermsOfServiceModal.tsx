@@ -124,7 +124,7 @@ const TermsOfServiceModal: React.FC<TermsOfServiceModalProps> = ({
                     id="modal-title"
                     className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 sm:mb-2"
                   >
-                    Terms of Service
+                    Morningful Terms of Service
                   </h2>
                   <p
                     id="modal-description"

@@ -124,7 +124,7 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({
                     id="modal-title"
                     className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 sm:mb-2"
                   >
-                    Privacy Policy
+                    Morningful Privacy Policy
                   </h2>
                   <p
                     id="modal-description"
@@ -156,10 +156,6 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({
                   </div>
 
                   <div className="prose prose-gray max-w-none">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">
-                      MORNINGFUL PRIVACY POLICY
-                    </h1>
-
                     <p className="mb-4">
                       Morningful Inc. ("Morningful", "we", "us" or "our") highly
                       values and respects your privacy. This privacy policy
