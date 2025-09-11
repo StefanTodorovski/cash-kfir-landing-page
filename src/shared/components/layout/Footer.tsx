@@ -24,14 +24,14 @@ const Footer: React.FC<FooterProps> = ({
         <div className="flex flex-col md:flex-row justify-between items-center gap-8">
           {/* Left side - Logo, Description, and Social Media */}
           <div className="flex flex-col items-start max-w-md">
-            <div className="mb-4">
+            <div className="mb-6">
               <img
                 src="/images/logos/transparent.png"
                 alt="Logo"
-                className="h-16 w-auto block"
+                className="h-28 sm:h-32 md:h-36 lg:h-40 w-auto block"
               />
             </div>
-            <p className="text-gray-300 text-sm mb-6 leading-relaxed">
+            <p className="text-gray-300 text-base mb-6 leading-relaxed">
               Empowering finance teams with intelligent money management and
               real-time cash flow visibility.
             </p>
@@ -50,7 +50,7 @@ const Footer: React.FC<FooterProps> = ({
           </div>
 
           {/* Right side - Navigation Links */}
-          <div className="flex flex-col md:flex-row gap-8 text-sm items-center justify-center">
+          <div className="flex flex-col md:flex-row gap-8 text-base items-center justify-center">
             <button
               onClick={onPrivacyPolicyClick}
               className="text-gray-300 hover:text-[#00d4ff] transition-colors"
