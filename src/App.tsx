@@ -62,6 +62,7 @@ function App() {
         <PrivacyPolicyModal
           isOpen={privacyPolicyHook.isModalOpen}
           onClose={privacyPolicyHook.closeModal}
+          onTermsOfServiceClick={termsOfServiceHook.openModal}
         />
         <TermsOfServiceModal
           isOpen={termsOfServiceHook.isModalOpen}

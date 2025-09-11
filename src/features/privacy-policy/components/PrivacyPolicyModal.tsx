@@ -5,11 +5,13 @@ import { X } from 'lucide-react';
 interface PrivacyPolicyModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onTermsOfServiceClick: () => void;
 }
 
 const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({
   isOpen,
   onClose,
+  onTermsOfServiceClick,
 }) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
   const firstFocusableNode = React.useRef<HTMLElement | null>(null);
@@ -171,8 +173,15 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({
                     <p className="mb-4">
                       Capitalized terms which are not defined herein shall have
                       the meaning ascribed to them in Morningful's Terms of Use,
-                      available at ____________________, to which this Privacy
-                      Policy is incorporated.
+                      available{' '}
+                      <button
+                        onClick={onTermsOfServiceClick}
+                        className="text-blue-600 hover:text-blue-800 underline cursor-pointer bg-transparent border-none p-0 font-inherit"
+                        type="button"
+                      >
+                        here
+                      </button>
+                      , to which this Privacy Policy is incorporated.
                     </p>
 
                     <p className="mb-4">
