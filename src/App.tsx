@@ -9,7 +9,6 @@ import {
   CTASection,
 } from './features/landing';
 import { BetaWaitlistModal } from './features/beta-waitlist';
-import { RequestDemoModal } from './features/demo-request';
 import { ContactModal } from './features/contact';
 import { Chatbot } from './features/chatbot';
 import {
@@ -20,22 +19,18 @@ import {
   usePrivacyPolicy,
   useTermsOfService,
 } from './shared/hooks';
-import { ContactModal } from './features/contact';
 import { PrivacyPolicyModal } from './features/privacy-policy';
 import { TermsOfServiceModal } from './features/terms-of-service';
 
 function App() {
-  const demoHook = useRequestDemo();
   const contactHook = useContact();
   const betaWaitlistHook = useBetaWaitlist();
+  const privacyPolicyHook = usePrivacyPolicy();
+  const termsOfServiceHook = useTermsOfService();
 
   // Initialize analytics tracking
   useAnalytics();
   useScrollTracking();
-
-  const contactHook = useContact();
-  const privacyPolicyHook = usePrivacyPolicy();
-  const termsOfServiceHook = useTermsOfService();
 
   return (
     <ErrorBoundary>
@@ -73,9 +68,11 @@ function App() {
           isOpen={termsOfServiceHook.isModalOpen}
           onClose={termsOfServiceHook.closeModal}
         />
+        <Chatbot />
       </Layout>
     </ErrorBoundary>
   );
 }
 
 export default App;
+
