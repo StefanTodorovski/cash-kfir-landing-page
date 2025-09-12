@@ -9,6 +9,9 @@ import {
   CTASection,
 } from './features/landing';
 import { BetaWaitlistModal } from './features/beta-waitlist';
+import { RequestDemoModal } from './features/demo-request';
+import { ContactModal } from './features/contact';
+import { Chatbot } from './features/chatbot';
 import {
   useBetaWaitlist,
   useAnalytics,
@@ -22,6 +25,8 @@ import { PrivacyPolicyModal } from './features/privacy-policy';
 import { TermsOfServiceModal } from './features/terms-of-service';
 
 function App() {
+  const demoHook = useRequestDemo();
+  const contactHook = useContact();
   const betaWaitlistHook = useBetaWaitlist();
 
   // Initialize analytics tracking
