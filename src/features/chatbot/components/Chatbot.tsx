@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, User, Bot } from 'lucide-react';
+import { chatbotService, ChatbotRequestData } from '../../../shared/services/api/chatbot';
 
 interface Message {
   id: string;
@@ -139,7 +140,7 @@ export const Chatbot: React.FC<ChatbotProps> = () => {
     }, 1000);
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!currentInput.trim()) return;
 
     addUserMessage(currentInput);
@@ -156,15 +157,51 @@ export const Chatbot: React.FC<ChatbotProps> = () => {
     setCurrentInput('');
     
     // Move to next question or complete
-    setTimeout(() => {
+    setTimeout(async () => {
       if (currentQuestionIndex < currentQuestions.length - 1) {
         setCurrentQuestionIndex(prev => prev + 1);
         addBotMessage(currentQuestions[currentQuestionIndex + 1]);
       } else if (!isComplete) {
         setIsComplete(true);
-        addBotMessage(
-          "Perfect! Thank you for sharing your information with us. Our team has received your details and will be in touch soon to help you optimize your cash flow management. Have a great day!"
-        );
+        
+        // Prepare data for API request when conversation is complete
+        const allResponses = [...userResponses, {
+          question: currentQuestions[currentQuestionIndex],
+          answer: currentInput
+        }];
+        
+        const requestData: ChatbotRequestData = {
+          chosenTopic: selectedTopic,
+          question1: allResponses[0]?.question || '',
+          question2: allResponses[1]?.question || '',
+          question3: allResponses[2]?.question || '',
+          question4: allResponses[3]?.question || undefined,
+          answer1: allResponses[0]?.answer || '',
+          answer2: allResponses[1]?.answer || '',
+          answer3: allResponses[2]?.answer || '',
+          answer4: allResponses[3]?.answer || undefined,
+        };
+
+        // Send to API
+        try {
+          const result = await chatbotService.submitChatbotRequest(requestData);
+          
+          if (result.success) {
+            addBotMessage(
+              "Perfect! Thank you for sharing your information with us. Our team has received your details and will be in touch soon to help you optimize your cash flow management. Have a great day!"
+            );
+          } else {
+            console.error('Failed to submit chatbot request:', result.error);
+            addBotMessage(
+              "Thank you for sharing your information with us. We'll be in touch soon to help you optimize your cash flow management. Have a great day!"
+            );
+          }
+        } catch (error) {
+          console.error('Error submitting chatbot request:', error);
+          addBotMessage(
+            "Thank you for sharing your information with us. We'll be in touch soon to help you optimize your cash flow management. Have a great day!"
+          );
+        }
       }
     }, 500);
   };

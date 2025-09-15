@@ -1,3 +1,3 @@
 export { betaWaitlistService } from './betaWaitlist';
 export { contactService } from './contact';
-export { submitChatbotResponses } from './chatbot';
+export { chatbotService } from './chatbot';
