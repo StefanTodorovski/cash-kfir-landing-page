@@ -1,5 +1,6 @@
 import React from 'react';
 import { APP_CONFIG } from '../../config/environment';
+import { useAnalytics } from '../../hooks';
 
 interface FooterProps {
   onContactClick?: () => void;
@@ -12,11 +13,37 @@ const Footer: React.FC<FooterProps> = ({
   onPrivacyPolicyClick,
   onTermsOfServiceClick,
 }) => {
+  const { trackNavigation } = useAnalytics();
+
   const socialLinks = [
     { label: 'Facebook', href: APP_CONFIG.SOCIAL_LINKS.FACEBOOK, icon: 'f' },
     { label: 'Twitter', href: APP_CONFIG.SOCIAL_LINKS.TWITTER, icon: 't' },
     { label: 'LinkedIn', href: APP_CONFIG.SOCIAL_LINKS.LINKEDIN, icon: 'in' },
   ];
+
+  const handlePrivacyPolicyClick = () => {
+    trackNavigation('Privacy Policy');
+    onPrivacyPolicyClick?.();
+  };
+
+  const handleTermsOfServiceClick = () => {
+    trackNavigation('Terms of Service');
+    onTermsOfServiceClick?.();
+  };
+
+  const handleAboutUsClick = () => {
+    trackNavigation('About Us');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleContactClick = () => {
+    trackNavigation('Contact Us');
+    onContactClick?.();
+  };
+
+  const handleSocialClick = (platform: string) => {
+    trackNavigation(`Social - ${platform}`);
+  };
 
   return (
     <footer className="bg-[#1a2332] text-white py-8">
@@ -40,6 +67,7 @@ const Footer: React.FC<FooterProps> = ({
                 <a
                   key={social.label}
                   href={social.href}
+                  onClick={() => handleSocialClick(social.label)}
                   className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#00d4ff] transition-colors cursor-pointer"
                   aria-label={social.label}
                 >
@@ -52,25 +80,25 @@ const Footer: React.FC<FooterProps> = ({
           {/* Right side - Navigation Links */}
           <div className="flex flex-col md:flex-row gap-8 text-base items-center justify-center">
             <button
-              onClick={onPrivacyPolicyClick}
+              onClick={handlePrivacyPolicyClick}
               className="text-gray-300 hover:text-[#00d4ff] transition-colors"
             >
               Privacy Policy
             </button>
             <button
-              onClick={onTermsOfServiceClick}
+              onClick={handleTermsOfServiceClick}
               className="text-gray-300 hover:text-[#00d4ff] transition-colors"
             >
               Terms of Service
             </button>
             <button
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              onClick={handleAboutUsClick}
               className="text-gray-300 hover:text-[#00d4ff] transition-colors"
             >
               About Us
             </button>
             <button
-              onClick={onContactClick}
+              onClick={handleContactClick}
               className="text-gray-300 hover:text-[#00d4ff] transition-colors"
             >
               Contact Us

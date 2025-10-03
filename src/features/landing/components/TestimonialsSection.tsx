@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '../../../shared/components/ui/Button';
 import { useScrollAnimation } from '../../../shared/hooks/useAnimation';
+import { useAnalytics } from '../../../shared/hooks';
 
 const TESTIMONIALS_DATA = [
   {
@@ -26,17 +27,25 @@ const TESTIMONIALS_DATA = [
 ];
 
 const TestimonialsSection = () => {
+  const { trackFeatureInteraction } = useAnalytics();
   const [currentIndex, setCurrentIndex] = useState(0);
   const { ref, isInView } = useScrollAnimation();
 
   const nextTestimonial = () => {
+    trackFeatureInteraction('testimonials', 'next_testimonial');
     setCurrentIndex(prev => (prev + 1) % TESTIMONIALS_DATA.length);
   };
 
   const prevTestimonial = () => {
+    trackFeatureInteraction('testimonials', 'prev_testimonial');
     setCurrentIndex(
       prev => (prev - 1 + TESTIMONIALS_DATA.length) % TESTIMONIALS_DATA.length
     );
+  };
+
+  const handleDotClick = (index: number) => {
+    trackFeatureInteraction('testimonials', `dot_click_${index}`);
+    setCurrentIndex(index);
   };
 
   return (
@@ -134,7 +143,7 @@ const TestimonialsSection = () => {
               {TESTIMONIALS_DATA.map((_, index) => (
                 <button
                   key={index}
-                  onClick={() => setCurrentIndex(index)}
+                  onClick={() => handleDotClick(index)}
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
                     index === currentIndex
                       ? 'bg-[#00d4ff] scale-125'

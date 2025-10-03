@@ -1,5 +1,6 @@
 import { useState, useCallback, ChangeEvent, FormEvent } from 'react';
 import { contactService } from '../services/api';
+import { analyticsService } from '../services/analytics';
 
 export type ContactFormData = {
   name: string;
@@ -30,6 +31,10 @@ export const useContact = () => {
   const [errors, setErrors] = useState<ContactFormErrors>({});
 
   const openModal = useCallback(() => {
+    analyticsService.logEvent('contact_modal_opened', {
+      event_category: 'engagement',
+      event_label: 'modal_interaction',
+    });
     setIsModalOpen(true);
     setSubmitStatus(null);
     setErrors({});
@@ -112,6 +117,13 @@ export const useContact = () => {
         const result = await contactService.create(formData);
 
         if (result.success) {
+          // Track successful contact form submission
+          analyticsService.logEvent('contact_form_submitted', {
+            event_category: 'form_submission',
+            event_label: 'contact_success',
+            value: 1,
+          });
+
           setSubmitStatus('success');
 
           // Reset form data and errors, but keep the success status
@@ -123,10 +135,23 @@ export const useContact = () => {
             closeModal();
           }, 3000);
         } else {
+          // Track failed contact form submission
+          analyticsService.logEvent('contact_form_failed', {
+            event_category: 'form_submission',
+            event_label: 'api_error',
+            error_message: result.error || 'unknown_error',
+          });
           console.error('API Error:', result.error);
           setSubmitStatus('error');
         }
       } catch (error) {
+        // Track unexpected errors
+        analyticsService.logEvent('contact_form_error', {
+          event_category: 'form_submission',
+          event_label: 'unexpected_error',
+          error_message:
+            error instanceof Error ? error.message : 'unknown_error',
+        });
         console.error('Unexpected error submitting form:', error);
         setSubmitStatus('error');
       } finally {

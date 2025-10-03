@@ -1,4 +1,5 @@
 import { ENV } from '../config/environment';
+import mixpanel from 'mixpanel-browser';
 
 // Google Analytics types
 declare global {
@@ -11,10 +12,13 @@ declare global {
 class AnalyticsService {
   private trackingId: string = ENV.GOOGLE_ANALYTICS_ID;
   private isInitialized: boolean = false;
+  private isMixpanelInitialized: boolean = false;
+  private isCountryBlocked: boolean = false;
 
   constructor() {
     if (process.env.NODE_ENV === 'production') {
       this.initializeGoogleAnalytics();
+      this.initializeMixpanel();
     }
   }
 
@@ -43,35 +47,111 @@ class AnalyticsService {
     this.isInitialized = true;
   }
 
+  private async initializeMixpanel(): Promise<void> {
+    if (this.isMixpanelInitialized) return;
+
+    try {
+      // Check if user's country is blocked
+      const isBlocked = await this.isUserCountryBlocked();
+      this.isCountryBlocked = isBlocked;
+
+      if (!isBlocked) {
+        // Initialize Mixpanel only if country is not blocked
+        mixpanel.init(ENV.MIXPANEL_TOKEN, {
+          debug: process.env.NODE_ENV === 'development',
+          track_pageview: true,
+          persistence: 'localStorage',
+          property_blacklist: ['$current_url', '$initial_referrer', '$referrer']
+        });
+        
+        this.isMixpanelInitialized = true;
+        
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Mixpanel initialized successfully');
+        }
+      } else {
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Mixpanel blocked for this country');
+        }
+      }
+    } catch (error) {
+      console.error('Failed to initialize Mixpanel:', error);
+    }
+  }
+
+  private async isUserCountryBlocked(): Promise<boolean> {
+    try {
+      // Use a simple IP geolocation service to get user's country
+      const response = await fetch('https://ipapi.co/json/');
+      const data = await response.json();
+      const userCountry = data.country_code;
+      
+      const isBlocked = ENV.MIXPANEL_BLOCKED_COUNTRIES.includes(userCountry);
+      
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`User country: ${userCountry}, Blocked: ${isBlocked}`);
+      }
+      
+      return isBlocked;
+    } catch (error) {
+      // If geolocation fails, allow tracking (fail open)
+      console.warn('Could not determine user country, allowing tracking:', error);
+      return false;
+    }
+  }
+
   /**
-   * Log a custom event to Google Analytics
+   * Log a custom event to Google Analytics and Mixpanel
    * @param eventName - The name of the event
    * @param params - Additional parameters for the event
    */
   logEvent(eventName: string, params?: { [key: string]: any }): void {
+    // Google Analytics tracking
     if (typeof window.gtag === 'function') {
       window.gtag('event', eventName, {
         app_name: 'morningful_landing_page',
         ...params,
       });
-    } else if (process.env.NODE_ENV === 'development') {
+    }
+
+    // Mixpanel tracking (only if not blocked)
+    if (this.isMixpanelInitialized && !this.isCountryBlocked) {
+      mixpanel.track(eventName, {
+        app_name: 'morningful_landing_page',
+        ...params,
+      });
+    }
+
+    if (process.env.NODE_ENV === 'development') {
       console.log('Analytics Event:', eventName, params);
     }
   }
 
   /**
-   * Log a page view to Google Analytics
+   * Log a page view to Google Analytics and Mixpanel
    * @param path - The page path
    * @param title - Optional page title
    */
   logPageView(path: string, title?: string): void {
+    // Google Analytics tracking
     if (typeof window.gtag === 'function') {
       window.gtag('config', this.trackingId, {
         page_path: path,
         page_title: title,
         app_name: 'morningful_landing_page',
       });
-    } else if (process.env.NODE_ENV === 'development') {
+    }
+
+    // Mixpanel tracking (only if not blocked)
+    if (this.isMixpanelInitialized && !this.isCountryBlocked) {
+      mixpanel.track('Page View', {
+        page_path: path,
+        page_title: title,
+        app_name: 'morningful_landing_page',
+      });
+    }
+
+    if (process.env.NODE_ENV === 'development') {
       console.log('Analytics Page View:', path, title);
     }
   }

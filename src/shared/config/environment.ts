@@ -6,6 +6,8 @@ export const ENV = {
   IS_DEVELOPMENT: process.env.NODE_ENV === 'development',
   IS_PRODUCTION: process.env.NODE_ENV === 'production',
   GOOGLE_ANALYTICS_ID: 'G-8DY1F31TH3',
+  MIXPANEL_TOKEN: 'c53e4dfba1627a32fa34ef246f38fb80',
+  MIXPANEL_BLOCKED_COUNTRIES: ['MK', 'IL'],
 };
 
 export const API_CONFIG = {

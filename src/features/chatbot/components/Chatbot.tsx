@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, User, Bot } from 'lucide-react';
 import { chatbotService, ChatbotRequestData } from '../../../shared/services/api/chatbot';
+import { useAnalytics } from '../../../shared/hooks';
 
 interface Message {
   id: string;
@@ -65,6 +66,7 @@ const getTopicQuestions = (topic: string): string[] => {
 };
 
 export const Chatbot: React.FC<ChatbotProps> = () => {
+  const { trackCTAClick, trackFeatureInteraction } = useAnalytics();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentInput, setCurrentInput] = useState('');
@@ -123,6 +125,8 @@ export const Chatbot: React.FC<ChatbotProps> = () => {
   };
 
   const handleTopicSelection = (topic: string) => {
+    trackFeatureInteraction('chatbot', `topic_selected_${topic.toLowerCase().replace(/\s+/g, '_')}`);
+    
     setSelectedTopic(topic);
     setShowTopicSelection(false);
     
@@ -187,17 +191,20 @@ export const Chatbot: React.FC<ChatbotProps> = () => {
           const result = await chatbotService.submitChatbotRequest(requestData);
           
           if (result.success) {
+            trackCTAClick('Chatbot Conversation Completed', 'chatbot');
             addBotMessage(
               "Perfect! Thank you for sharing your information with us. Our team has received your details and will be in touch soon to help you optimize your cash flow management. Have a great day!"
             );
           } else {
             console.error('Failed to submit chatbot request:', result.error);
+            trackFeatureInteraction('chatbot', 'submission_failed');
             addBotMessage(
               "Thank you for sharing your information with us. We'll be in touch soon to help you optimize your cash flow management. Have a great day!"
             );
           }
         } catch (error) {
           console.error('Error submitting chatbot request:', error);
+          trackFeatureInteraction('chatbot', 'submission_error');
           addBotMessage(
             "Thank you for sharing your information with us. We'll be in touch soon to help you optimize your cash flow management. Have a great day!"
           );
@@ -214,6 +221,12 @@ export const Chatbot: React.FC<ChatbotProps> = () => {
   };
 
   const toggleChat = () => {
+    if (!isOpen) {
+      trackFeatureInteraction('chatbot', 'opened');
+    } else {
+      trackFeatureInteraction('chatbot', 'closed');
+    }
+    
     setIsOpen(!isOpen);
     if (!isOpen && inputRef.current) {
       setTimeout(() => inputRef.current?.focus(), 100);
