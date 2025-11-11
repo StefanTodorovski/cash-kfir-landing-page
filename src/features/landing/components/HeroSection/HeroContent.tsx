@@ -91,7 +91,7 @@ const HeroContent: React.FC<HeroContentProps> = ({ onJoinBetaWaitlist }) => {
         transition={{ delay: 0.6, duration: 0.6 }}
         className="flex items-center space-x-8 pt-8"
       >
-        <div className="text-sm text-gray-400">Trusted by 500+ companies</div>
+        <div className="text-sm text-gray-400">Trusted by 14+ companies</div>
         <div className="flex space-x-1">
           {[...Array(5)].map((_, i) => (
             <motion.div
