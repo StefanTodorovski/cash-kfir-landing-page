@@ -396,6 +396,28 @@ const BetaWaitlistModal: React.FC<BetaWaitlistModalProps> = ({
                         </select>
                       </FormField>
                     </div>
+
+                    <FormField
+                      label="Expected Banks *"
+                      icon={Building}
+                      error={errors.expectedBanks}
+                      fieldName="expectedBanks"
+                    >
+                      <input
+                        type="number"
+                        name="expectedBanks"
+                        value={formData.expectedBanks}
+                        onChange={handleInputChange}
+                        required
+                        min={1}
+                        className={inputClassName}
+                        placeholder="Number of banks expected"
+                        aria-describedby={
+                          errors.expectedBanks ? 'expectedBanks-error' : undefined
+                        }
+                        aria-invalid={errors.expectedBanks ? 'true' : 'false'}
+                      />
+                    </FormField>
                   </div>
 
                   {/* Error Message */}

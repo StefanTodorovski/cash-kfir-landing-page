@@ -10,6 +10,7 @@ export type BetaWaitlistFormData = {
   businessName: string;
   businessLocation: string;
   businessSize: string;
+  expectedBanks: string; // store as string for input, convert to number on submit
 };
 
 export type BetaWaitlistFormErrors = Partial<
@@ -103,8 +104,15 @@ export const useBetaWaitlist = () => {
       newErrors.businessLocation = 'Business location is required';
     }
 
+
     if (!formData.businessSize) {
       newErrors.businessSize = 'Business size is required';
+    }
+
+    if (!formData.expectedBanks.trim()) {
+      newErrors.expectedBanks = 'Expected banks is required';
+    } else if (isNaN(Number(formData.expectedBanks)) || Number(formData.expectedBanks) <= 0) {
+      newErrors.expectedBanks = 'Please enter a valid number greater than 0';
     }
 
     setErrors(newErrors);
@@ -123,7 +131,13 @@ export const useBetaWaitlist = () => {
       setSubmitStatus(null);
 
       try {
-        const result = await betaWaitlistService.joinWaitlist(formData);
+
+        // Convert expectedBanks to number before sending
+        const submitData = {
+          ...formData,
+          expectedBanks: Number(formData.expectedBanks),
+        };
+        const result = await betaWaitlistService.joinWaitlist(submitData);
 
         if (result.success) {
           // Track successful beta waitlist request

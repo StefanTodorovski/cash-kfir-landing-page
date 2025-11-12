@@ -13,4 +13,5 @@ export const INITIAL_FORM_DATA = {
   businessName: '',
   businessLocation: '',
   businessSize: '',
+  expectedBanks: '', // store as string for input, convert to number on submit
 };
